@@ -43,6 +43,7 @@ class RuleDraftingPipeline:
                 "condition": extracted["condition"],
                 "action_suggestion": extracted["action_suggestion"],
                 "entities": extracted["entities"],
+                "extracted_zones": extracted.get("extracted_zones", []),
                 "severity_suggestion": extracted["severity_suggestion"],
                 "confidence": round(confidence, 2),
                 "status": "draft",

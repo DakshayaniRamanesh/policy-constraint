@@ -1,10 +1,13 @@
 [
     {
-        "id": "DR-FF8D",
+        "id": "DR-1517",
         "source_sentence": "* Indoor speed: Max 0.5 m/s",
         "condition": {},
         "action_suggestion": "ALERT",
         "entities": [],
+        "extracted_zones": [
+            "Indoor"
+        ],
         "severity_suggestion": "LOW",
         "confidence": 0.0,
         "status": "draft",
@@ -13,12 +16,15 @@
         "label": "DRAFT ONLY - NON-ACTIVE"
     },
     {
-        "id": "DR-B6E1",
+        "id": "DR-955D",
         "source_sentence": "* Outdoor speed: Max 1.2 m/s",
         "condition": {},
         "action_suggestion": "ALERT",
         "entities": [
             "Max"
+        ],
+        "extracted_zones": [
+            "Outdoor"
         ],
         "severity_suggestion": "LOW",
         "confidence": 0.0,

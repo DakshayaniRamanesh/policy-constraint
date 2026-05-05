@@ -1,59 +1,44 @@
 {
     "status": "success",
-    "raw_text": "UNITREE GO2 SAFETY POLICY\nVERSION 1.0\n\n1. OPERATIONAL BOUNDARIES\nThe robot must remain within the designated testing area.\nAny deviation from the perimeter will trigger an automatic stop.\n\n2. SPEED LIMITS\n* Indoor speed: Max 0.5 m/s\n* Outdoor speed: Max 1.2 m/s\n\n3. EMERGENCY PROCEDURES\nIf the robot loses connection, it must sit down immediately.\nPressing the hardware E-STOP will cut power to motors.\n\n4. MAINTENANCE\nPeriodic checks of the leg joints are required every 10 hours of operation.\nEnsure the battery is above 20% before starting a mission.\n\nEND OF DOCUMENT",
+    "raw_text": "Access Control Policy v1.0\n\n1. Robots must not enter Zone C after 10PM.\n2. Authorized personnel only are allowed in Zone A at all times.\n3. In case of emergency, all robots must stop immediately.\n4. Delivery robots may operate in Zone B between 8AM and 6PM.\n5. Robots should avoid crowded areas during peak hours.",
     "document_structure": [
         {
-            "type": "heading",
-            "content": "UNITREE GO2 SAFETY POLICY",
-            "line_number": 1
+            "type": "section",
+            "content": "1. Robots must not enter Zone C after 10PM.",
+            "line_number": 3
         },
         {
             "type": "section",
-            "content": "1. OPERATIONAL BOUNDARIES",
+            "content": "2. Authorized personnel only are allowed in Zone A at all times.",
             "line_number": 4
         },
         {
             "type": "section",
-            "content": "2. SPEED LIMITS",
-            "line_number": 8
-        },
-        {
-            "type": "bullet",
-            "content": "* Indoor speed: Max 0.5 m/s",
-            "line_number": 9
-        },
-        {
-            "type": "bullet",
-            "content": "* Outdoor speed: Max 1.2 m/s",
-            "line_number": 10
+            "content": "3. In case of emergency, all robots must stop immediately.",
+            "line_number": 5
         },
         {
             "type": "section",
-            "content": "3. EMERGENCY PROCEDURES",
-            "line_number": 12
+            "content": "4. Delivery robots may operate in Zone B between 8AM and 6PM.",
+            "line_number": 6
         },
         {
             "type": "section",
-            "content": "4. MAINTENANCE",
-            "line_number": 16
-        },
-        {
-            "type": "heading",
-            "content": "END OF DOCUMENT",
-            "line_number": 20
+            "content": "5. Robots should avoid crowded areas during peak hours.",
+            "line_number": 7
         }
     ],
     "ingestion_log": {
-        "file_name": "test_policy.txt",
+        "file_name": "access_control_policy.txt",
         "type": "TXT",
         "page_count": 1,
-        "timestamp": "2026-05-05T17:44:59.405076",
+        "timestamp": "2026-05-06T02:29:47.991616",
         "ocr_used": false,
         "processing_history": [
-            "[2026-05-05T17:44:59.386590] Starting ingestion for: test_policy.txt",
-            "[2026-05-05T17:44:59.403647] File validated as TXT (text/plain)",
-            "[2026-05-05T17:44:59.404256] Text cleanup completed.",
-            "[2026-05-05T17:44:59.405059] Structure detection completed. Found 8 elements."
+            "[2026-05-06T02:29:47.982343] Starting ingestion for: access_control_policy.txt",
+            "[2026-05-06T02:29:47.990089] File validated as TXT (text/plain)",
+            "[2026-05-06T02:29:47.990918] Text cleanup completed.",
+            "[2026-05-06T02:29:47.991502] Structure detection completed. Found 5 elements."
         ]
     }
 }

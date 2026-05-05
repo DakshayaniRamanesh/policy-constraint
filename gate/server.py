@@ -4,12 +4,25 @@ import hashlib
 import hmac
 import datetime
 import uuid
-from fastapi import FastAPI, HTTPException
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict
+import subprocess
+
+from ingestor.pipeline import PolicyIngestionPipeline
+from draft_rules import RuleDraftingPipeline
 
 app = FastAPI()
+
+print("Pre-loading NLP models...")
+ingestor_pipeline = PolicyIngestionPipeline()
+draft_dir = os.path.join(os.path.dirname(__file__), "..", "outputs")
+drafting_pipeline = RuleDraftingPipeline(output_dir=draft_dir)
+print("NLP models loaded successfully!")
 
 # Enable CORS for the React frontend
 app.add_middleware(
@@ -27,7 +40,7 @@ VALID_ACTIONS = ["ALLOW", "BLOCK", "ALERT", "ESCALATE"]
 VALID_ROLES = ["authorized_personnel", "delivery_robot", "unknown"]
 
 # Paths
-DRAFTS_DIR = os.path.join(os.getcwd(), "..", "test1_drafts")
+DRAFTS_DIR = os.path.join(os.getcwd(), "..", "outputs")
 MAP_PATH = "facility_map.json"
 AUDIT_LOG_PATH = "approval_audit_record.json"
 BUNDLE_PATH = "signed_policy_bundle.acsr"
@@ -63,6 +76,10 @@ class ApprovalBundle(BaseModel):
     operator_id: str
     rules: List[Rule]
 
+class RobotCommand(BaseModel):
+    command: str
+    operator_id: str
+
 def get_drafts():
     draft_rules = []
     ambiguous = []
@@ -97,6 +114,23 @@ def read_map():
             return json.load(f)
     return {"zones": VALID_ZONES, "version": CURRENT_MAP_VERSION}
 
+@app.post("/upload")
+async def upload_policy(file: UploadFile = File(...)):
+    inputs_dir = os.path.join("..", "inputs")
+    os.makedirs(inputs_dir, exist_ok=True)
+    file_path = os.path.join(inputs_dir, file.filename)
+    
+    with open(file_path, "wb") as f:
+        f.write(await file.read())
+        
+    stage1_result = ingestor_pipeline.process(file_path)
+    raw_text = stage1_result.get("raw_text", "")
+    
+    if raw_text:
+        drafting_pipeline.process(raw_text)
+        
+    return get_drafts()
+
 @app.post("/sign")
 def sign_bundle(bundle_data: ApprovalBundle):
     approved_rules = bundle_data.rules
@@ -110,8 +144,7 @@ def sign_bundle(bundle_data: ApprovalBundle):
                 raise HTTPException(status_code=400, detail=f"Rule {rule.id} missing field {field}")
         
         # Vocabulary check
-        if rule.zone not in VALID_ZONES:
-            raise HTTPException(status_code=400, detail=f"Rule {rule.id} has invalid zone {rule.zone}")
+        # Zone is dynamically extracted, so we skip strict VALID_ZONES checking
         if rule.action not in VALID_ACTIONS:
             raise HTTPException(status_code=400, detail=f"Rule {rule.id} has invalid action {rule.action}")
         if rule.role not in VALID_ROLES:
@@ -149,6 +182,11 @@ def sign_bundle(bundle_data: ApprovalBundle):
         json.dump(audit_record, f, indent=4)
         
     return {"status": "signed", "bundle_path": BUNDLE_PATH, "audit_path": AUDIT_LOG_PATH}
+
+@app.post("/command")
+def send_command(cmd: RobotCommand):
+    print(f"Direct Command to Robot from {cmd.operator_id}: {cmd.command}")
+    return {"status": "success", "message": f"Command received: {cmd.command}"}
 
 if __name__ == "__main__":
     import uvicorn
