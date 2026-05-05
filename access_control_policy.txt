@@ -1,0 +1,7 @@
+Access Control Policy v1.0
+
+1. Robots must not enter Zone C after 10PM.
+2. Authorized personnel only are allowed in Zone A at all times.
+3. In case of emergency, all robots must stop immediately.
+4. Delivery robots may operate in Zone B between 8AM and 6PM.
+5. Robots should avoid crowded areas during peak hours.

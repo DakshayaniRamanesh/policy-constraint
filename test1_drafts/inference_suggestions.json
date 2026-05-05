@@ -1,0 +1,17 @@
+[
+    {
+        "id": "DR-B912",
+        "source_sentence": "5. Robots should avoid crowded areas during peak hours.",
+        "condition": {},
+        "action_suggestion": "ALERT",
+        "entities": [
+            "robot"
+        ],
+        "severity_suggestion": "LOW",
+        "confidence": 0.7,
+        "status": "draft",
+        "active": false,
+        "is_inferred": true,
+        "label": "DRAFT ONLY - NON-ACTIVE"
+    }
+]

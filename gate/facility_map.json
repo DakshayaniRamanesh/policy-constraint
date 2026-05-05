@@ -1,0 +1,5 @@
+{
+    "version": "v1.0",
+    "zones": ["GLOBAL", "Zone A", "Zone B", "Zone C", "Zone D"],
+    "last_updated": "2026-05-01"
+}

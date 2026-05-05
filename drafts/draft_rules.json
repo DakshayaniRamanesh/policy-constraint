@@ -1,0 +1,93 @@
+[
+    {
+        "id": "DR-BC89",
+        "source_sentence": "The robot must remain within the designated testing area.",
+        "condition": {},
+        "action_suggestion": "ALLOW",
+        "entities": [
+            "robot"
+        ],
+        "severity_suggestion": "HIGH",
+        "confidence": 0.7,
+        "status": "draft",
+        "active": false,
+        "is_inferred": false,
+        "label": "DRAFT ONLY - NON-ACTIVE",
+        "flag": "medium_confidence"
+    },
+    {
+        "id": "DR-7FB1",
+        "source_sentence": "Any deviation from the perimeter will trigger an automatic stop.",
+        "condition": {},
+        "action_suggestion": "ALERT",
+        "entities": [],
+        "severity_suggestion": "LOW",
+        "confidence": 0.9,
+        "status": "draft",
+        "active": false,
+        "is_inferred": false,
+        "label": "DRAFT ONLY - NON-ACTIVE"
+    },
+    {
+        "id": "DR-9A60",
+        "source_sentence": "If the robot loses connection, it must sit down immediately.",
+        "condition": {
+            "trigger": "the robot loses connection"
+        },
+        "action_suggestion": "ALLOW",
+        "entities": [
+            "robot"
+        ],
+        "severity_suggestion": "CRITICAL",
+        "confidence": 0.7,
+        "status": "draft",
+        "active": false,
+        "is_inferred": false,
+        "label": "DRAFT ONLY - NON-ACTIVE",
+        "flag": "medium_confidence"
+    },
+    {
+        "id": "DR-4198",
+        "source_sentence": "Pressing the hardware E-STOP will cut power to motors.",
+        "condition": {},
+        "action_suggestion": "ESCALATE",
+        "entities": [],
+        "severity_suggestion": "LOW",
+        "confidence": 0.7,
+        "status": "draft",
+        "active": false,
+        "is_inferred": false,
+        "label": "DRAFT ONLY - NON-ACTIVE",
+        "flag": "medium_confidence"
+    },
+    {
+        "id": "DR-B4D7",
+        "source_sentence": "4. MAINTENANCE\nPeriodic checks of the leg joints are required every 10 hours of operation.",
+        "condition": {},
+        "action_suggestion": "ALLOW",
+        "entities": [
+            "MAINTENANCE\nPeriodic"
+        ],
+        "severity_suggestion": "MEDIUM",
+        "confidence": 0.7,
+        "status": "draft",
+        "active": false,
+        "is_inferred": false,
+        "label": "DRAFT ONLY - NON-ACTIVE",
+        "flag": "medium_confidence"
+    },
+    {
+        "id": "DR-4036",
+        "source_sentence": "Ensure the battery is above 20% before starting a mission.",
+        "condition": {},
+        "action_suggestion": "ALERT",
+        "entities": [],
+        "severity_suggestion": "LOW",
+        "confidence": 0.7,
+        "status": "draft",
+        "active": false,
+        "is_inferred": false,
+        "label": "DRAFT ONLY - NON-ACTIVE",
+        "flag": "medium_confidence"
+    }
+]

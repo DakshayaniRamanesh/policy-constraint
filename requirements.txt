@@ -1,0 +1,6 @@
+python-magic-bin
+pdfplumber
+python-docx
+pytesseract
+pillow
+spacy
