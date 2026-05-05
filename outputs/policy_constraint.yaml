@@ -1,0 +1,25 @@
+rules:
+  - id: DR-7159
+    action: ALLOW
+    severity: HIGH
+    entities:
+      - robot
+  - id: DR-D675
+    action: ALERT
+    severity: LOW
+  - id: DR-348D
+    action: ALLOW
+    severity: CRITICAL
+    condition:
+      trigger: "the robot loses connection"
+    entities:
+      - robot
+  - id: DR-B79D
+    action: ESCALATE
+    severity: LOW
+  - id: DR-6069
+    action: ALLOW
+    severity: MEDIUM
+  - id: DR-56D8
+    action: ALERT
+    severity: LOW

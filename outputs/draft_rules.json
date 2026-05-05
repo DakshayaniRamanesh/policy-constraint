@@ -1,6 +1,6 @@
 [
     {
-        "id": "DR-BC89",
+        "id": "DR-7159",
         "source_sentence": "The robot must remain within the designated testing area.",
         "condition": {},
         "action_suggestion": "ALLOW",
@@ -16,7 +16,7 @@
         "flag": "medium_confidence"
     },
     {
-        "id": "DR-7FB1",
+        "id": "DR-D675",
         "source_sentence": "Any deviation from the perimeter will trigger an automatic stop.",
         "condition": {},
         "action_suggestion": "ALERT",
@@ -29,7 +29,7 @@
         "label": "DRAFT ONLY - NON-ACTIVE"
     },
     {
-        "id": "DR-9A60",
+        "id": "DR-348D",
         "source_sentence": "If the robot loses connection, it must sit down immediately.",
         "condition": {
             "trigger": "the robot loses connection"
@@ -47,7 +47,7 @@
         "flag": "medium_confidence"
     },
     {
-        "id": "DR-4198",
+        "id": "DR-B79D",
         "source_sentence": "Pressing the hardware E-STOP will cut power to motors.",
         "condition": {},
         "action_suggestion": "ESCALATE",
@@ -61,13 +61,11 @@
         "flag": "medium_confidence"
     },
     {
-        "id": "DR-B4D7",
-        "source_sentence": "4. MAINTENANCE\nPeriodic checks of the leg joints are required every 10 hours of operation.",
+        "id": "DR-6069",
+        "source_sentence": "Periodic checks of the leg joints are required every 10 hours of operation.",
         "condition": {},
         "action_suggestion": "ALLOW",
-        "entities": [
-            "MAINTENANCE\nPeriodic"
-        ],
+        "entities": [],
         "severity_suggestion": "MEDIUM",
         "confidence": 0.7,
         "status": "draft",
@@ -77,7 +75,7 @@
         "flag": "medium_confidence"
     },
     {
-        "id": "DR-4036",
+        "id": "DR-56D8",
         "source_sentence": "Ensure the battery is above 20% before starting a mission.",
         "condition": {},
         "action_suggestion": "ALERT",
