@@ -47,13 +47,13 @@
         "file_name": "test_policy.txt",
         "type": "TXT",
         "page_count": 1,
-        "timestamp": "2026-05-04T21:31:17.791993",
+        "timestamp": "2026-05-05T17:44:59.405076",
         "ocr_used": false,
         "processing_history": [
-            "[2026-05-04T21:31:17.769640] Starting ingestion for: test_policy.txt",
-            "[2026-05-04T21:31:17.790035] File validated as TXT (text/plain)",
-            "[2026-05-04T21:31:17.791036] Text cleanup completed.",
-            "[2026-05-04T21:31:17.791858] Structure detection completed. Found 8 elements."
+            "[2026-05-05T17:44:59.386590] Starting ingestion for: test_policy.txt",
+            "[2026-05-05T17:44:59.403647] File validated as TXT (text/plain)",
+            "[2026-05-05T17:44:59.404256] Text cleanup completed.",
+            "[2026-05-05T17:44:59.405059] Structure detection completed. Found 8 elements."
         ]
     }
 }

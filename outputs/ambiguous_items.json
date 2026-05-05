@@ -1,0 +1,30 @@
+[
+    {
+        "id": "DR-FF8D",
+        "source_sentence": "* Indoor speed: Max 0.5 m/s",
+        "condition": {},
+        "action_suggestion": "ALERT",
+        "entities": [],
+        "severity_suggestion": "LOW",
+        "confidence": 0.0,
+        "status": "draft",
+        "active": false,
+        "is_inferred": false,
+        "label": "DRAFT ONLY - NON-ACTIVE"
+    },
+    {
+        "id": "DR-B6E1",
+        "source_sentence": "* Outdoor speed: Max 1.2 m/s",
+        "condition": {},
+        "action_suggestion": "ALERT",
+        "entities": [
+            "Max"
+        ],
+        "severity_suggestion": "LOW",
+        "confidence": 0.0,
+        "status": "draft",
+        "active": false,
+        "is_inferred": false,
+        "label": "DRAFT ONLY - NON-ACTIVE"
+    }
+]
