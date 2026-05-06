@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import './index.css';
+import SystemDashboard from './SystemDashboard';
+import ExecutedPolicies from './ExecutedPolicies';
 
 function App() {
   const [file, setFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [rules, setRules] = useState(null);
-  const [activeTab, setActiveTab] = useState('Policy Review');
+  const [activeTab, setActiveTab] = useState('System Dashboard');
   const [commandInput, setCommandInput] = useState('');
   const [availableZones, setAvailableZones] = useState(["GLOBAL"]);
 
@@ -169,6 +171,8 @@ function App() {
       <div className="sidebar">
         <div className="sidebar-logo">Policy Engine</div>
         <ul className="sidebar-nav">
+          <li className={activeTab === 'System Dashboard' ? "active" : ""} onClick={() => setActiveTab('System Dashboard')}>System Dashboard</li>
+          <li className={activeTab === 'Executed Policies' ? "active" : ""} onClick={() => setActiveTab('Executed Policies')}>Executed Policies</li>
           <li className={activeTab === 'Policy Review' ? "active" : ""} onClick={() => setActiveTab('Policy Review')}>Policy Review</li>
           <li className={activeTab === 'Direct Commands' ? "active" : ""} onClick={() => setActiveTab('Direct Commands')}>Robot Commands</li>
         </ul>
@@ -188,7 +192,11 @@ function App() {
         {/* Content Area */}
         <div className="content-area">
           <div className="container">
-            {activeTab === 'Policy Review' ? (
+            {activeTab === 'System Dashboard' ? (
+              <SystemDashboard />
+            ) : activeTab === 'Executed Policies' ? (
+              <ExecutedPolicies />
+            ) : activeTab === 'Policy Review' ? (
               <>
                 <div className="header">
                   <h1>Policy Review Dashboard</h1>
