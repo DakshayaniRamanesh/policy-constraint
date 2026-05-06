@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './index.css';
+import SystemDashboard from './SystemDashboard';
+import ExecutedPolicies from './ExecutedPolicies';
 
 function App() {
   const [file, setFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [rules, setRules] = useState(null);
-  const [activeTab, setActiveTab] = useState('Policy Review');
+  const [activeTab, setActiveTab] = useState('System Dashboard');
   const [commandInput, setCommandInput] = useState('');
   const [availableZones, setAvailableZones] = useState(["GLOBAL"]);
 
@@ -303,10 +305,12 @@ function App() {
         {/* Sidebar Navigation */}
         <div className="sidebar">
           <ul className="sidebar-nav">
+            <li className={activeTab === 'System Dashboard' ? "active" : ""} onClick={() => setActiveTab('System Dashboard')}>System Dashboard</li>
             <li className={activeTab === 'Policy Review' ? "active" : ""} onClick={() => setActiveTab('Policy Review')}>Policy Review</li>
             <li className={activeTab === 'Direct Commands' ? "active" : ""} onClick={() => setActiveTab('Direct Commands')}>Robot Commands</li>
             <li className={activeTab === 'Control Panel' ? "active" : ""} onClick={() => setActiveTab('Control Panel')}>Control Panel</li>
             <li className={activeTab === 'Alerts' ? "active" : ""} onClick={() => setActiveTab('Alerts')}>Alerts</li>
+            <li className={activeTab === 'Executed Policies' ? "active" : ""} onClick={() => setActiveTab('Executed Policies')}>Executed Policies</li>
           </ul>
         </div>
 
@@ -314,286 +318,294 @@ function App() {
         <div className="main-content">
           {/* Content Area */}
           <div className="content-area">
-          <div className="container">
-            {activeTab === 'Policy Review' && (
-              <>
-                <div className="header">
-                  <h1>Policy Review Dashboard</h1>
-                  <p>Upload policies, adjust parsed data, and approve rules for the ML Pipeline.</p>
-                </div>
+            <div className="container">
+              {activeTab === 'System Dashboard' && (
+                <SystemDashboard />
+              )}
 
-            {!rules && (
-              <>
-                <div className="info-cards">
-                  <div className="info-card">
-                    <div className="info-card-icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#0066cc" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                    </div>
-                    <div className="info-card-title">Automated Extraction</div>
-                    <div className="info-card-desc">NLP-powered parsing identifies constraint clauses, actions, zones, and severity levels from raw policy documents.</div>
+              {activeTab === 'Policy Review' && (
+                <>
+                  <div className="header">
+                    <h1>Policy Review Dashboard</h1>
+                    <p>Upload policies, adjust parsed data, and approve rules for the ML Pipeline.</p>
                   </div>
-                  <div className="info-card">
-                    <div className="info-card-icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#0066cc" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                    </div>
-                    <div className="info-card-title">Human-in-the-Loop Review</div>
-                    <div className="info-card-desc">Each extracted rule is surfaced for human validation — adjust confidence, zone, severity, and action before approval.</div>
-                  </div>
-                  <div className="info-card">
-                    <div className="info-card-icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#0066cc" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" /></svg>
-                    </div>
-                    <div className="info-card-title">ML Pipeline Ready</div>
-                    <div className="info-card-desc">Accepted rules are packaged and forwarded to the downstream ML execution pipeline for deployment on the Unitree Go2.</div>
-                  </div>
-                </div>
 
-                <div className="upload-section">
-                  <div className="upload-header">
-                    <h3>Upload Policy Document</h3>
-                    <p>Supported formats: <span className="badge-format">.pdf</span> <span className="badge-format">.docx</span> <span className="badge-format">.txt</span></p>
-                  </div>
-                  <input
-                    type="file"
-                    accept=".pdf,.docx,.txt"
-                    onChange={handleFileChange}
-                  />
-                  {file && (
-                    <div className="file-info">
-                      Selected: <strong>{file.name}</strong> ({(file.size / 1024).toFixed(1)} KB)
+                  {!rules && (
+                    <>
+                      <div className="info-cards">
+                        <div className="info-card">
+                          <div className="info-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#0066cc" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                          </div>
+                          <div className="info-card-title">Automated Extraction</div>
+                          <div className="info-card-desc">NLP-powered parsing identifies constraint clauses, actions, zones, and severity levels from raw policy documents.</div>
+                        </div>
+                        <div className="info-card">
+                          <div className="info-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#0066cc" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                          </div>
+                          <div className="info-card-title">Human-in-the-Loop Review</div>
+                          <div className="info-card-desc">Each extracted rule is surfaced for human validation — adjust confidence, zone, severity, and action before approval.</div>
+                        </div>
+                        <div className="info-card">
+                          <div className="info-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#0066cc" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" /></svg>
+                          </div>
+                          <div className="info-card-title">ML Pipeline Ready</div>
+                          <div className="info-card-desc">Accepted rules are packaged and forwarded to the downstream ML execution pipeline for deployment on the Unitree Go2.</div>
+                        </div>
+                      </div>
+
+                      <div className="upload-section">
+                        <div className="upload-header">
+                          <h3>Upload Policy Document</h3>
+                          <p>Supported formats: <span className="badge-format">.pdf</span> <span className="badge-format">.docx</span> <span className="badge-format">.txt</span></p>
+                        </div>
+                        <input
+                          type="file"
+                          accept=".pdf,.docx,.txt"
+                          onChange={handleFileChange}
+                        />
+                        {file && (
+                          <div className="file-info">
+                            Selected: <strong>{file.name}</strong> ({(file.size / 1024).toFixed(1)} KB)
+                          </div>
+                        )}
+                        <button
+                          className="btn"
+                          onClick={handleUpload}
+                          disabled={!file || isProcessing}
+                        >
+                          {isProcessing ? 'Parsing Document...' : 'Upload & Parse'}
+                        </button>
+                        <p className="upload-note">The pipeline will extract constraint rules and surface them for your review. No data is sent externally.</p>
+                      </div>
+
+                      <div className="pipeline-steps">
+                        <div className="step">
+                          <div className="step-number">1</div>
+                          <div className="step-text"><strong>Ingest</strong><br />Document is parsed and segmented into policy clauses.</div>
+                        </div>
+                        <div className="step-arrow">→</div>
+                        <div className="step">
+                          <div className="step-number">2</div>
+                          <div className="step-text"><strong>Extract</strong><br />Rules, zones, entities and actions are identified by the NLP engine.</div>
+                        </div>
+                        <div className="step-arrow">→</div>
+                        <div className="step">
+                          <div className="step-number">3</div>
+                          <div className="step-text"><strong>Review</strong><br />You validate, adjust, and approve each rule before submission.</div>
+                        </div>
+                        <div className="step-arrow">→</div>
+                        <div className="step">
+                          <div className="step-number">4</div>
+                          <div className="step-text"><strong>Deploy</strong><br />Accepted rules are forwarded to the ML execution pipeline.</div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {rules && (
+                    <div className="rules-section">
+                      <h2>
+                        <span>Extracted Draft Rules</span>
+                        <span style={{ fontSize: '14px', color: '#666', fontWeight: 'normal' }}>
+                          Pending Review: {rules.filter(r => r.status === 'PENDING').length}
+                        </span>
+                      </h2>
+
+                      {['High Confidence', 'Medium Confidence', 'Low Confidence', 'Inferred'].map(category => {
+                        const categoryRules = rules.filter(r => r.category === category);
+                        if (categoryRules.length === 0) return null;
+                        
+                        return (
+                          <div key={category} className="category-group">
+                            <h3 style={{ marginTop: '30px', marginBottom: '15px', paddingBottom: '10px', borderBottom: '2px solid #eee' }}>{category}</h3>
+                            
+                            {categoryRules.map(rule => (
+                              <div key={rule.id} className={`rule-card ${getRuleCssClass(rule.status)}`}>
+                                <div className="rule-header">
+                                  <span style={{ color: '#495057', fontWeight: 'bold', marginLeft: 'auto' }}>
+                                    Confidence: {(rule.confidence * 100).toFixed(0)}%
+                                  </span>
+                                </div>
+
+                                <div className="rule-source">
+                                  "{rule.source_sentence}"
+                                </div>
+
+                                <div className="rule-details">
+                                  <div className="detail-item">
+                                    <span className="detail-label">Action Override</span>
+                                    <select
+                                      className="detail-select"
+                                      value={rule.action_suggestion}
+                                      onChange={(e) => handleActionChange(rule.id, e.target.value)}
+                                    >
+                                      <option value="ALLOW">ALLOW</option>
+                                      <option value="BLOCK">BLOCK</option>
+                                      <option value="ALERT">ALERT</option>
+                                      <option value="ESCALATE">ESCALATE</option>
+                                    </select>
+                                  </div>
+
+                                  <div className="detail-item">
+                                    <span className="detail-label">Zone Override</span>
+                                    <select
+                                      className="detail-select"
+                                      value={rule.zone}
+                                      onChange={(e) => handleZoneChange(rule.id, e.target.value)}
+                                    >
+                                      {availableZones.map(z => <option key={z} value={z}>{z}</option>)}
+                                    </select>
+                                  </div>
+
+                                  <div className="detail-item">
+                                    <span className="detail-label">Severity Override</span>
+                                    <select
+                                      className="detail-select"
+                                      value={rule.severity_suggestion}
+                                      onChange={(e) => handleSeverityChange(rule.id, e.target.value)}
+                                    >
+                                      <option value="CRITICAL">CRITICAL</option>
+                                      <option value="HIGH">HIGH</option>
+                                      <option value="MEDIUM">MEDIUM</option>
+                                      <option value="LOW">LOW</option>
+                                    </select>
+                                  </div>
+
+                                  <div className="confidence-slider">
+                                    <span className="detail-label">Confidence Score</span>
+                                    <input
+                                      type="range"
+                                      min="0" max="1" step="0.01"
+                                      value={rule.confidence}
+                                      onChange={(e) => handleConfidenceChange(rule.id, e.target.value)}
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="rule-actions">
+                                  {rule.category === 'High Confidence' && (
+                                    <>
+                                      {rule.status === 'APPROVED' ? (
+                                        <button className="btn btn-accepted" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Approved</button>
+                                      ) : (
+                                        <button className="btn btn-accept" onClick={() => handleStatusChange(rule.id, 'APPROVED')}>Approve</button>
+                                      )}
+                                      {rule.status === 'REJECTED' ? (
+                                        <button className="btn btn-rejected" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Rejected</button>
+                                      ) : (
+                                        <button className="btn btn-reject" onClick={() => handleStatusChange(rule.id, 'REJECTED')}>Reject</button>
+                                      )}
+                                    </>
+                                  )}
+
+                                  {rule.category === 'Medium Confidence' && (
+                                    <>
+                                      {rule.status === 'APPROVED' ? (
+                                        <button className="btn btn-accepted" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Reviewed & Approved</button>
+                                      ) : (
+                                        <button className="btn btn-accept" onClick={() => handleStatusChange(rule.id, 'APPROVED')}>Manual Review (Approve)</button>
+                                      )}
+                                      {rule.status === 'REJECTED' ? (
+                                        <button className="btn btn-rejected" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Rejected</button>
+                                      ) : (
+                                        <button className="btn btn-reject" onClick={() => handleStatusChange(rule.id, 'REJECTED')}>Reject</button>
+                                      )}
+                                    </>
+                                  )}
+
+                                  {rule.category === 'Low Confidence' && (
+                                    <>
+                                      {rule.status === 'EDITED' ? (
+                                        <button className="btn btn-accepted" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Edited & Approved</button>
+                                      ) : (
+                                        <button className="btn btn-accept" onClick={() => handleStatusChange(rule.id, 'EDITED')}>Edit & Approve</button>
+                                      )}
+                                      {rule.status === 'REJECTED' ? (
+                                        <button className="btn btn-rejected" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Rejected</button>
+                                      ) : (
+                                        <button className="btn btn-reject" onClick={() => handleStatusChange(rule.id, 'REJECTED')}>Reject</button>
+                                      )}
+                                    </>
+                                  )}
+
+                                  {rule.category === 'Inferred' && (
+                                    <>
+                                      {rule.status === 'APPROVED' ? (
+                                        <button className="btn btn-accepted" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Accepted</button>
+                                      ) : (
+                                        <button className="btn btn-accept" onClick={() => handleStatusChange(rule.id, 'APPROVED')}>Accept</button>
+                                      )}
+                                      {rule.status === 'DISCARDED' ? (
+                                        <button className="btn btn-rejected" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Discarded</button>
+                                      ) : (
+                                        <button className="btn btn-reject" onClick={() => handleStatusChange(rule.id, 'DISCARDED')}>Discard</button>
+                                      )}
+                                    </>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        );
+                      })}
+
+                      <div className="submit-section">
+                        <button
+                          className="btn"
+                          style={{ padding: '15px 30px', fontSize: '18px' }}
+                          onClick={handleSubmitToML}
+                          disabled={rules.some(r => r.status === 'PENDING')}
+                        >
+                          {rules.some(r => r.status === 'PENDING')
+                            ? 'Review all rules before submitting'
+                            : 'Submit Accepted Rules to ML Pipeline'
+                          }
+                        </button>
+                      </div>
                     </div>
                   )}
-                  <button
-                    className="btn"
-                    onClick={handleUpload}
-                    disabled={!file || isProcessing}
-                  >
-                    {isProcessing ? 'Parsing Document...' : 'Upload & Parse'}
-                  </button>
-                  <p className="upload-note">The pipeline will extract constraint rules and surface them for your review. No data is sent externally.</p>
-                </div>
+                </>
+              )}
 
-                <div className="pipeline-steps">
-                  <div className="step">
-                    <div className="step-number">1</div>
-                    <div className="step-text"><strong>Ingest</strong><br />Document is parsed and segmented into policy clauses.</div>
+              {activeTab === 'Executed Policies' && (
+                <ExecutedPolicies />
+              )}
+
+              {activeTab === 'Direct Commands' && (
+                <div className="command-section">
+                  <div className="header">
+                    <h1>Direct Robot Commands</h1>
+                    <p>Real-time command interface with enforced compliance.</p>
                   </div>
-                  <div className="step-arrow">→</div>
-                  <div className="step">
-                    <div className="step-number">2</div>
-                    <div className="step-text"><strong>Extract</strong><br />Rules, zones, entities and actions are identified by the NLP engine.</div>
+                  <div className="upload-section" style={{ alignItems: 'flex-start', width: '100%', boxSizing: 'border-box' }}>
+                    <h3 style={{ marginBottom: '10px' }}>Enter Command</h3>
+                    <textarea 
+                      value={commandInput}
+                      onChange={(e) => setCommandInput(e.target.value)}
+                      placeholder="Commands are executed immediately and not saved as rules"
+                      style={{ width: '100%', height: '120px', padding: '15px', marginBottom: '20px', borderRadius: '4px', border: '1px solid #ccc', fontSize: '16px', resize: 'vertical', boxSizing: 'border-box', fontFamily: 'inherit' }}
+                    />
+                    <button 
+                      className="btn" 
+                      onClick={handleCommandSubmit}
+                      disabled={!commandInput.trim()}
+                      style={{ padding: '12px 24px', fontSize: '16px' }}
+                    >
+                      Send Command to Robot
+                    </button>
                   </div>
-                  <div className="step-arrow">→</div>
-                  <div className="step">
-                    <div className="step-number">3</div>
-                    <div className="step-text"><strong>Review</strong><br />You validate, adjust, and approve each rule before submission.</div>
+                </div>
+              )}
+
+              {activeTab === 'Control Panel' && (
+                <div className="control-panel-section">
+                  <div className="header">
+                    <h1>Control Panel</h1>
+                    <p>Direct manual override and joystick controls.</p>
                   </div>
-                  <div className="step-arrow">→</div>
-                  <div className="step">
-                    <div className="step-number">4</div>
-                    <div className="step-text"><strong>Deploy</strong><br />Accepted rules are forwarded to the ML execution pipeline.</div>
-                  </div>
-                </div>
-              </>
-            )}
-
-            {rules && (
-              <div className="rules-section">
-                <h2>
-                  <span>Extracted Draft Rules</span>
-                  <span style={{ fontSize: '14px', color: '#666', fontWeight: 'normal' }}>
-                    Pending Review: {rules.filter(r => r.status === 'PENDING').length}
-                  </span>
-                </h2>
-
-                {['High Confidence', 'Medium Confidence', 'Low Confidence', 'Inferred'].map(category => {
-                  const categoryRules = rules.filter(r => r.category === category);
-                  if (categoryRules.length === 0) return null;
-                  
-                  return (
-                    <div key={category} className="category-group">
-                      <h3 style={{ marginTop: '30px', marginBottom: '15px', paddingBottom: '10px', borderBottom: '2px solid #eee' }}>{category}</h3>
-                      
-                      {categoryRules.map(rule => (
-                        <div key={rule.id} className={`rule-card ${getRuleCssClass(rule.status)}`}>
-                          <div className="rule-header">
-                            <span style={{ color: '#495057', fontWeight: 'bold', marginLeft: 'auto' }}>
-                              Confidence: {(rule.confidence * 100).toFixed(0)}%
-                            </span>
-                          </div>
-
-                          <div className="rule-source">
-                            "{rule.source_sentence}"
-                          </div>
-
-                          <div className="rule-details">
-                            <div className="detail-item">
-                              <span className="detail-label">Action Override</span>
-                              <select
-                                className="detail-select"
-                                value={rule.action_suggestion}
-                                onChange={(e) => handleActionChange(rule.id, e.target.value)}
-                              >
-                                <option value="ALLOW">ALLOW</option>
-                                <option value="BLOCK">BLOCK</option>
-                                <option value="ALERT">ALERT</option>
-                                <option value="ESCALATE">ESCALATE</option>
-                              </select>
-                            </div>
-
-                            <div className="detail-item">
-                              <span className="detail-label">Zone Override</span>
-                              <select
-                                className="detail-select"
-                                value={rule.zone}
-                                onChange={(e) => handleZoneChange(rule.id, e.target.value)}
-                              >
-                                {availableZones.map(z => <option key={z} value={z}>{z}</option>)}
-                              </select>
-                            </div>
-
-                            <div className="detail-item">
-                              <span className="detail-label">Severity Override</span>
-                              <select
-                                className="detail-select"
-                                value={rule.severity_suggestion}
-                                onChange={(e) => handleSeverityChange(rule.id, e.target.value)}
-                              >
-                                <option value="CRITICAL">CRITICAL</option>
-                                <option value="HIGH">HIGH</option>
-                                <option value="MEDIUM">MEDIUM</option>
-                                <option value="LOW">LOW</option>
-                              </select>
-                            </div>
-
-                            <div className="confidence-slider">
-                              <span className="detail-label">Confidence Score</span>
-                              <input
-                                type="range"
-                                min="0" max="1" step="0.01"
-                                value={rule.confidence}
-                                onChange={(e) => handleConfidenceChange(rule.id, e.target.value)}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="rule-actions">
-                            {rule.category === 'High Confidence' && (
-                              <>
-                                {rule.status === 'APPROVED' ? (
-                                  <button className="btn btn-accepted" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Approved</button>
-                                ) : (
-                                  <button className="btn btn-accept" onClick={() => handleStatusChange(rule.id, 'APPROVED')}>Approve</button>
-                                )}
-                                {rule.status === 'REJECTED' ? (
-                                  <button className="btn btn-rejected" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Rejected</button>
-                                ) : (
-                                  <button className="btn btn-reject" onClick={() => handleStatusChange(rule.id, 'REJECTED')}>Reject</button>
-                                )}
-                              </>
-                            )}
-
-                            {rule.category === 'Medium Confidence' && (
-                              <>
-                                {rule.status === 'APPROVED' ? (
-                                  <button className="btn btn-accepted" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Reviewed & Approved</button>
-                                ) : (
-                                  <button className="btn btn-accept" onClick={() => handleStatusChange(rule.id, 'APPROVED')}>Manual Review (Approve)</button>
-                                )}
-                                {rule.status === 'REJECTED' ? (
-                                  <button className="btn btn-rejected" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Rejected</button>
-                                ) : (
-                                  <button className="btn btn-reject" onClick={() => handleStatusChange(rule.id, 'REJECTED')}>Reject</button>
-                                )}
-                              </>
-                            )}
-
-                            {rule.category === 'Low Confidence' && (
-                              <>
-                                {rule.status === 'EDITED' ? (
-                                  <button className="btn btn-accepted" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Edited & Approved</button>
-                                ) : (
-                                  <button className="btn btn-accept" onClick={() => handleStatusChange(rule.id, 'EDITED')}>Edit & Approve</button>
-                                )}
-                                {rule.status === 'REJECTED' ? (
-                                  <button className="btn btn-rejected" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Rejected</button>
-                                ) : (
-                                  <button className="btn btn-reject" onClick={() => handleStatusChange(rule.id, 'REJECTED')}>Reject</button>
-                                )}
-                              </>
-                            )}
-
-                            {rule.category === 'Inferred' && (
-                              <>
-                                {rule.status === 'APPROVED' ? (
-                                  <button className="btn btn-accepted" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Accepted</button>
-                                ) : (
-                                  <button className="btn btn-accept" onClick={() => handleStatusChange(rule.id, 'APPROVED')}>Accept</button>
-                                )}
-                                {rule.status === 'DISCARDED' ? (
-                                  <button className="btn btn-rejected" onClick={() => handleStatusChange(rule.id, 'PENDING')}>Discarded</button>
-                                ) : (
-                                  <button className="btn btn-reject" onClick={() => handleStatusChange(rule.id, 'DISCARDED')}>Discard</button>
-                                )}
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  );
-                })}
-
-                <div className="submit-section">
-                  <button
-                    className="btn"
-                    style={{ padding: '15px 30px', fontSize: '18px' }}
-                    onClick={handleSubmitToML}
-                    disabled={rules.some(r => r.status === 'PENDING')}
-                  >
-                    {rules.some(r => r.status === 'PENDING')
-                      ? 'Review all rules before submitting'
-                      : 'Submit Accepted Rules to ML Pipeline'
-                    }
-                  </button>
-                </div>
-              </div>
-            )}
-              </>
-            )}
-
-            {activeTab === 'Direct Commands' && (
-              <div className="command-section">
-                <div className="header">
-                  <h1>Direct Robot Commands</h1>
-                  <p>Real-time command interface with enforced compliance.</p>
-                </div>
-                <div className="upload-section" style={{ alignItems: 'flex-start', width: '100%', boxSizing: 'border-box' }}>
-                  <h3 style={{ marginBottom: '10px' }}>Enter Command</h3>
-                  <textarea 
-                    value={commandInput}
-                    onChange={(e) => setCommandInput(e.target.value)}
-                    placeholder="Commands are executed immediately and not saved as rules"
-                    style={{ width: '100%', height: '120px', padding: '15px', marginBottom: '20px', borderRadius: '4px', border: '1px solid #ccc', fontSize: '16px', resize: 'vertical', boxSizing: 'border-box', fontFamily: 'inherit' }}
-                  />
-                  <button 
-                    className="btn" 
-                    onClick={handleCommandSubmit}
-                    disabled={!commandInput.trim()}
-                    style={{ padding: '12px 24px', fontSize: '16px' }}
-                  >
-                    Send Command to Robot
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {activeTab === 'Control Panel' && (
-              <div className="control-panel-section">
-                <div className="header">
-                  <h1>Control Panel</h1>
-                  <p>Direct manual override and joystick controls.</p>
-                </div>
                   <div className="control-panel-container">
                     {/* Part 1: Mode Toggle */}
                     <div className="mode-toggle-section">
@@ -641,45 +653,45 @@ function App() {
                       </button>
                     </div>
                   </div>
-              </div>
-            )}
+                </div>
+              )}
 
-            {activeTab === 'Alerts' && (
-              <div className="alerts-section">
-                <div className="header">
-                  <h1>System Alerts</h1>
-                  <p>Real-time notifications and incident logs.</p>
-                </div>
-                
-                <h3 className="alert-heading critical">Critical Alerts</h3>
-                <div className="alert-list">
-                  <div className="alert-card critical-alert">
-                    <div className="alert-time">14:02:15</div>
-                    <div className="alert-msg"><strong>Unauthorized Access:</strong> Person detected entering restricted Sector B without clearance.</div>
+              {activeTab === 'Alerts' && (
+                <div className="alerts-section">
+                  <div className="header">
+                    <h1>System Alerts</h1>
+                    <p>Real-time notifications and incident logs.</p>
                   </div>
-                  <div className="alert-card critical-alert">
-                    <div className="alert-time">11:45:03</div>
-                    <div className="alert-msg"><strong>Collision Avoidance:</strong> E-stop triggered due to sudden obstacle in path.</div>
+                  
+                  <h3 className="alert-heading critical">Critical Alerts</h3>
+                  <div className="alert-list">
+                    <div className="alert-card critical-alert">
+                      <div className="alert-time">14:02:15</div>
+                      <div className="alert-msg"><strong>Unauthorized Access:</strong> Person detected entering restricted Sector B without clearance.</div>
+                    </div>
+                    <div className="alert-card critical-alert">
+                      <div className="alert-time">11:45:03</div>
+                      <div className="alert-msg"><strong>Collision Avoidance:</strong> E-stop triggered due to sudden obstacle in path.</div>
+                    </div>
                   </div>
-                </div>
 
-                <h3 className="alert-heading normal">Normal Alerts</h3>
-                <div className="alert-list">
-                  <div className="alert-card normal-alert">
-                    <div className="alert-time">13:30:00</div>
-                    <div className="alert-msg"><strong>Patrol Update:</strong> Chair count reduced in Conference Room A. (Expected: 12, Found: 10)</div>
-                  </div>
-                  <div className="alert-card normal-alert">
-                    <div className="alert-time">09:15:22</div>
-                    <div className="alert-msg"><strong>System Status:</strong> Routine battery cycle check completed successfully.</div>
+                  <h3 className="alert-heading normal">Normal Alerts</h3>
+                  <div className="alert-list">
+                    <div className="alert-card normal-alert">
+                      <div className="alert-time">13:30:00</div>
+                      <div className="alert-msg"><strong>Patrol Update:</strong> Chair count reduced in Conference Room A. (Expected: 12, Found: 10)</div>
+                    </div>
+                    <div className="alert-card normal-alert">
+                      <div className="alert-time">09:15:22</div>
+                      <div className="alert-msg"><strong>System Status:</strong> Routine battery cycle check completed successfully.</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
       
       {notification && (
         <div className={`notification toast-${notification.type}`}>
