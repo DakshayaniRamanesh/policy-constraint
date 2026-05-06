@@ -1,11 +1,14 @@
 [
     {
-        "id": "DR-7159",
+        "id": "DR-46CA",
         "source_sentence": "The robot must remain within the designated testing area.",
         "condition": {},
         "action_suggestion": "ALLOW",
         "entities": [
             "robot"
+        ],
+        "extracted_zones": [
+            "Testing Area"
         ],
         "severity_suggestion": "HIGH",
         "confidence": 0.7,
@@ -16,11 +19,14 @@
         "flag": "medium_confidence"
     },
     {
-        "id": "DR-D675",
+        "id": "DR-57A7",
         "source_sentence": "Any deviation from the perimeter will trigger an automatic stop.",
         "condition": {},
         "action_suggestion": "ALERT",
         "entities": [],
+        "extracted_zones": [
+            "Perimeter"
+        ],
         "severity_suggestion": "LOW",
         "confidence": 0.9,
         "status": "draft",
@@ -29,7 +35,7 @@
         "label": "DRAFT ONLY - NON-ACTIVE"
     },
     {
-        "id": "DR-348D",
+        "id": "DR-5431",
         "source_sentence": "If the robot loses connection, it must sit down immediately.",
         "condition": {
             "trigger": "the robot loses connection"
@@ -38,6 +44,7 @@
         "entities": [
             "robot"
         ],
+        "extracted_zones": [],
         "severity_suggestion": "CRITICAL",
         "confidence": 0.7,
         "status": "draft",
@@ -47,11 +54,12 @@
         "flag": "medium_confidence"
     },
     {
-        "id": "DR-B79D",
+        "id": "DR-7253",
         "source_sentence": "Pressing the hardware E-STOP will cut power to motors.",
         "condition": {},
         "action_suggestion": "ESCALATE",
         "entities": [],
+        "extracted_zones": [],
         "severity_suggestion": "LOW",
         "confidence": 0.7,
         "status": "draft",
@@ -61,11 +69,12 @@
         "flag": "medium_confidence"
     },
     {
-        "id": "DR-6069",
+        "id": "DR-BD45",
         "source_sentence": "Periodic checks of the leg joints are required every 10 hours of operation.",
         "condition": {},
         "action_suggestion": "ALLOW",
         "entities": [],
+        "extracted_zones": [],
         "severity_suggestion": "MEDIUM",
         "confidence": 0.7,
         "status": "draft",
@@ -75,11 +84,12 @@
         "flag": "medium_confidence"
     },
     {
-        "id": "DR-56D8",
+        "id": "DR-E6A8",
         "source_sentence": "Ensure the battery is above 20% before starting a mission.",
         "condition": {},
         "action_suggestion": "ALERT",
         "entities": [],
+        "extracted_zones": [],
         "severity_suggestion": "LOW",
         "confidence": 0.7,
         "status": "draft",

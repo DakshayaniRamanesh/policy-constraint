@@ -46,6 +46,49 @@ class RuleExtractor:
         
         return list(set(entities))
 
+    def extract_zones(self, sentence):
+        # Step 1: Preprocess text
+        # lowercase
+        text_lower = sentence.lower()
+        # remove noise words
+        noise_words = ["please", "kindly", "ensure", "the", "a", "an", "is", "are", "to", "for"]
+        for nw in noise_words:
+            text_lower = re.sub(fr"\b{nw}\b", "", text_lower)
+        text_lower = re.sub(r"\s+", " ", text_lower).strip()
+
+        # Step 2: spaCy
+        # tokenize and basic entity detection
+        doc = self.nlp(sentence)
+        zones = []
+        for ent in doc.ents:
+            if ent.label_ in ["GPE", "LOC", "FAC"]:
+                zones.append(ent.text)
+
+        # Step 3: Rule layer (important)
+        # detect: Zone A, Zone B, indoor / outdoor, custom places
+        rule_patterns = [
+            r"zone\s+[a-z0-9]+",
+            r"indoor",
+            r"outdoor",
+            r"testing area",
+            r"charging station",
+            r"perimeter",
+            r"warehouse",
+            r"office",
+            r"hallway",
+            r"corridor",
+            r"lobby"
+        ]
+        
+        for pattern in rule_patterns:
+            matches = re.findall(fr"\b{pattern}\b", text_lower)
+            zones.extend(matches)
+            
+        # Normalize and deduplicate (e.g. "zone A" and "Zone A" -> "Zone A")
+        final_zones = list(set([z.strip().title() for z in zones if z.strip()]))
+        
+        return final_zones
+
     def extract_condition(self, sentence):
         condition = {}
         
@@ -72,5 +115,6 @@ class RuleExtractor:
             "condition": self.extract_condition(sentence),
             "action_suggestion": self.extract_action(sentence),
             "entities": self.extract_entities(sentence),
+            "extracted_zones": self.extract_zones(sentence),
             "severity_suggestion": self.extract_severity(sentence)
         }
