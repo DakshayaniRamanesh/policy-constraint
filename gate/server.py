@@ -42,10 +42,10 @@ VALID_ROLES = ["authorized_personnel", "delivery_robot", "unknown"]
 # Paths
 DRAFTS_DIR = os.path.join(os.getcwd(), "..", "outputs")
 MAP_PATH = "facility_map.json"
-AUDIT_LOG_PATH = "approval_audit_record.json"
+AUDIT_LOG_PATH = "audit_log.json"
 BUNDLE_PATH = "signed_policy_bundle.acsr"
 
-# State
+# Models
 class Rule(BaseModel):
     id: str
     source_sentence: str
@@ -58,19 +58,12 @@ class Rule(BaseModel):
     active: bool
     is_inferred: bool
     label: str
-    # Fields to be added during human review
     zone: Optional[str] = None
     role: Optional[str] = None
     action: Optional[str] = None
     severity: Optional[str] = None
     entity_requires_identity_resolution: bool = False
     operator_id: Optional[str] = None
-
-class AuditAction(BaseModel):
-    rule_id: str
-    decision: str
-    change: Optional[str] = None
-    reason: Optional[str] = None
 
 class ApprovalBundle(BaseModel):
     operator_id: str
@@ -79,6 +72,32 @@ class ApprovalBundle(BaseModel):
 class RobotCommand(BaseModel):
     command: str
     operator_id: str
+
+class AuditEntry(BaseModel):
+    timestamp: str
+    operator: str
+    role: str
+    type: str
+    action: str
+    action_sub: str
+    severity: str
+    rule_id: str
+
+# Helper functions
+def get_audit_logs():
+    if os.path.exists(AUDIT_LOG_PATH):
+        with open(AUDIT_LOG_PATH, "r") as f:
+            try:
+                return json.load(f)
+            except:
+                return []
+    return []
+
+def add_audit_entry(entry: Dict):
+    logs = get_audit_logs()
+    logs.insert(0, entry)  # Newest first
+    with open(AUDIT_LOG_PATH, "w") as f:
+        json.dump(logs, f, indent=4)
 
 def get_drafts():
     draft_rules = []
@@ -102,6 +121,19 @@ def get_drafts():
         "ambiguous_items": ambiguous,
         "inference_suggestions": inferences
     }
+
+# Endpoints
+@app.get("/audit")
+def read_audit():
+    return get_audit_logs()
+
+@app.post("/audit")
+def create_audit(entry: AuditEntry):
+    data = entry.dict()
+    if not data.get("timestamp"):
+        data["timestamp"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    add_audit_entry(data)
+    return {"status": "success"}
 
 @app.get("/drafts")
 def read_drafts():
@@ -144,14 +176,13 @@ def sign_bundle(bundle_data: ApprovalBundle):
                 raise HTTPException(status_code=400, detail=f"Rule {rule.id} missing field {field}")
         
         # Vocabulary check
-        # Zone is dynamically extracted, so we skip strict VALID_ZONES checking
         if rule.action not in VALID_ACTIONS:
             raise HTTPException(status_code=400, detail=f"Rule {rule.id} has invalid action {rule.action}")
         if rule.role not in VALID_ROLES:
             raise HTTPException(status_code=400, detail=f"Rule {rule.id} has invalid role {rule.role}")
 
     # 2. Cryptographic Signing
-    timestamp = datetime.datetime.now().isoformat()
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     bundle = {
         "rules": [r.dict() for r in approved_rules],
         "approved_by": operator_id,
@@ -171,21 +202,40 @@ def sign_bundle(bundle_data: ApprovalBundle):
     with open(BUNDLE_PATH, "w") as f:
         json.dump(bundle, f, indent=4)
         
-    # 4. Generate Audit Record
-    audit_record = {
-        "operator_id": operator_id,
-        "timestamp": timestamp,
-        "actions": [{"rule_id": r.id, "decision": "APPROVED"} for r in approved_rules],
-        "signature_valid": True
-    }
-    with open(AUDIT_LOG_PATH, "w") as f:
-        json.dump(audit_record, f, indent=4)
+    # 4. Generate Audit Entries
+    for r in approved_rules:
+        entry = {
+            "timestamp": timestamp,
+            "operator": operator_id,
+            "role": "superbase user",
+            "type": "APPROVED",
+            "action": f"Rule {r.id} approved. {r.action} access to {r.zone}.",
+            "action_sub": f"Confidence: {int(r.confidence*100)}%. Source: {r.source_sentence[:50]}...",
+            "severity": r.severity,
+            "rule_id": r.id
+        }
+        add_audit_entry(entry)
         
-    return {"status": "signed", "bundle_path": BUNDLE_PATH, "audit_path": AUDIT_LOG_PATH}
+    return {"status": "signed", "bundle_path": BUNDLE_PATH, "audit_log": AUDIT_LOG_PATH}
 
 @app.post("/command")
 def send_command(cmd: RobotCommand):
     print(f"Direct Command to Robot from {cmd.operator_id}: {cmd.command}")
+    
+    # Also record in audit log
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    entry = {
+        "timestamp": timestamp,
+        "operator": cmd.operator_id,
+        "role": "superbase user",
+        "type": "DIRECT COMMAND",
+        "action": f"Manual command executed: {cmd.command}",
+        "action_sub": "Command sent via real-time interface bypass.",
+        "severity": "MEDIUM",
+        "rule_id": "SYS-CMD"
+    }
+    add_audit_entry(entry)
+    
     return {"status": "success", "message": f"Command received: {cmd.command}"}
 
 if __name__ == "__main__":

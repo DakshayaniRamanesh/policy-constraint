@@ -31,90 +31,31 @@ const SevCell = ({ sev }) => {
   );
 };
 
-const AUDIT = [
-  {
-    timestamp: "2024-05-06\n14:02:15",
-    operator: "admin", role: "superbase user",
-    type: "FORCE STOP",
-    action: "Emergency stop issued. All robot motion halted immediately.",
-    actionSub: "System reset to AUTONOMOUS mode after intervention.",
-    severity: "CRITICAL", ruleId: "SYS-ESTOP",
-  },
-  {
-    timestamp: "2024-05-06\n13:58:40",
-    operator: "admin", role: "superbase user",
-    type: "MODE SWITCH",
-    action: "Control mode switched from AUTONOMOUS to MANUAL.",
-    actionSub: "Session ID: OP-0047. Reason: scheduled maintenance check.",
-    severity: "HIGH", ruleId: "SYS-MODE",
-  },
-  {
-    timestamp: "2024-05-06\n13:54:38",
-    operator: "Policy Engine", role: "Automated Agent",
-    type: "RULE MATCH",
-    action: "Rule R-003 triggered. ALERT raised for unrecognized human detection.",
-    actionSub: "Zone: LAB-B. Time: 13:54:38. Proximity: 3.8 m.",
-    severity: "HIGH", ruleId: "R-003",
-  },
-  {
-    timestamp: "2024-05-06\n13:47:10",
-    operator: "admin", role: "superbase user",
-    type: "APPROVED",
-    action: "Rule DR-001 approved. BLOCK access to Zone C after 22:00.",
-    actionSub: "Confidence: 97%. Category: High Confidence.",
-    severity: "CRITICAL", ruleId: "DR-001",
-  },
-  {
-    timestamp: "2024-05-06\n13:45:22",
-    operator: "admin", role: "superbase user",
-    type: "EDITED",
-    action: "Rule DR-005 edited. Severity escalated from HIGH to CRITICAL.",
-    actionSub: "Zone override changed from Indoor to Stairwell.",
-    severity: "CRITICAL", ruleId: "DR-005",
-  },
-  {
-    timestamp: "2024-05-06\n13:40:05",
-    operator: "admin", role: "superbase user",
-    type: "REJECTED",
-    action: "Rule DR-007 rejected due to insufficient confidence score.",
-    actionSub: "Confidence: 58%. Reason: ambiguous source clause.",
-    severity: "LOW", ruleId: "DR-007",
-  },
-  {
-    timestamp: "2024-05-06\n13:33:18",
-    operator: "Policy Engine", role: "Automated Agent",
-    type: "VIOLATION",
-    action: "Speed limit violation detected. Robot was travelling at 1.8 m/s indoors.",
-    actionSub: "Rule R-002 enforcement triggered automatically.",
-    severity: "HIGH", ruleId: "R-002",
-  },
-  {
-    timestamp: "2024-05-06\n13:22:44",
-    operator: "admin", role: "superbase user",
-    type: "APPROVED",
-    action: "Rule DR-003 approved. ALLOW standard patrol from 06:00 to 22:00.",
-    actionSub: "Zone: Patrol Grid A. Category: Medium Confidence.",
-    severity: "MEDIUM", ruleId: "DR-003",
-  },
-];
-
 const SEV_ORDER = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
 const COL = "130px 160px 120px 1fr 90px 110px";
 
 export default function ExecutedPolicies() {
+  const [auditData, setAuditData] = React.useState([]);
   const [search, setSearch]       = useState("");
   const [filterSev, setFilterSev] = useState("ALL");
   const [sortSev, setSortSev]     = useState("NONE");
 
+  React.useEffect(() => {
+    fetch("http://localhost:8000/audit")
+      .then(res => res.json())
+      .then(data => setAuditData(data))
+      .catch(err => console.error("Error fetching audit logs:", err));
+  }, []);
+
   // Derived filtered+sorted list — recalculated only when inputs change
   const rows = useMemo(() => {
     const q = search.trim().toLowerCase();
-    let list = AUDIT.filter(r => {
+    let list = auditData.filter(r => {
       const matchQ = !q ||
         r.operator.toLowerCase().includes(q) ||
         r.type.toLowerCase().includes(q) ||
         r.action.toLowerCase().includes(q) ||
-        r.ruleId.toLowerCase().includes(q) ||
+        r.rule_id.toLowerCase().includes(q) ||
         r.severity.toLowerCase().includes(q);
       const matchS = filterSev === "ALL" || r.severity === filterSev;
       return matchQ && matchS;
@@ -122,7 +63,7 @@ export default function ExecutedPolicies() {
     if (sortSev === "ASC")  list = [...list].sort((a, b) => SEV_ORDER[a.severity] - SEV_ORDER[b.severity]);
     if (sortSev === "DESC") list = [...list].sort((a, b) => SEV_ORDER[b.severity] - SEV_ORDER[a.severity]);
     return list;
-  }, [search, filterSev, sortSev]);
+  }, [auditData, search, filterSev, sortSev]);
 
   const inputBase = {
     padding: "7px 10px",
@@ -246,14 +187,10 @@ export default function ExecutedPolicies() {
               <SevCell sev={row.severity} />
             </div>
             <div style={{ padding: "12px 14px", fontFamily: MONO, fontSize: 12, fontWeight: 700, color: P.accent, display: "flex", alignItems: "center" }}>
-              {row.ruleId}
+              {row.rule_id}
             </div>
           </div>
         ))}
-      </div>
-
-      <div style={{ marginTop: 10, fontSize: 12, color: P.textDim }}>
-        Showing {rows.length} of {AUDIT.length} records
       </div>
     </div>
   );

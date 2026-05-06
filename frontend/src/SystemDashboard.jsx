@@ -26,6 +26,17 @@ const HomeIcon = () => (
   </svg>
 );
 
+const UnitreeLogo = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 18L6 14H18L20 18" stroke={P.accent} strokeWidth="2" strokeLinecap="round"/>
+    <path d="M8 14V10C8 8.89543 8.89543 8 10 8H14C15.1046 8 16 8.89543 16 10V14" stroke={P.accent} strokeWidth="2"/>
+    <circle cx="10" cy="11" r="1" fill={P.accent}/>
+    <circle cx="14" cy="11" r="1" fill={P.accent}/>
+    <path d="M12 5V8" stroke={P.accent} strokeWidth="2" strokeLinecap="round"/>
+    <path d="M10 5H14" stroke={P.accent} strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
 const BatteryIcon = ({ color }) => (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="7" width="18" height="10" rx="1" />
@@ -169,21 +180,27 @@ export default function SystemDashboard() {
       <div style={{
         display: "flex",
         alignItems: "center",
-        gap: 8,
+        justifyContent: "space-between",
         marginBottom: 16,
       }}>
-        <HomeIcon />
-        <span style={{
-          fontSize: 13,
-          fontWeight: 700,
-          color: P.textDim,
-          letterSpacing: "0.04em",
-          textTransform: "uppercase",
-          fontFamily: P.font,
-        }}>
-          Dashboard
-        </span>
-        <span style={{ color: "#8a95a5", fontSize: 13, marginLeft: 2 }}>/ System Overview</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <HomeIcon />
+          <span style={{
+            fontSize: 13,
+            fontWeight: 700,
+            color: P.textDim,
+            letterSpacing: "0.04em",
+            textTransform: "uppercase",
+            fontFamily: P.font,
+          }}>
+            Dashboard
+          </span>
+          <span style={{ color: "#8a95a5", fontSize: 13, marginLeft: 2 }}>/ System Overview</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, background: "#fff", padding: "6px 12px", border: `1px solid ${P.border}` }}>
+          <UnitreeLogo />
+          <span style={{ fontSize: 11, fontWeight: 800, color: P.text, letterSpacing: "1px", fontFamily: P.mono }}>GO2-EDU-0047</span>
+        </div>
       </div>
 
       {/* ── 4 Stat Cards — gapped row ── */}
