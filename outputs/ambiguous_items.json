@@ -1,6 +1,6 @@
 [
     {
-        "id": "DR-1517",
+        "id": "DR-B1FD",
         "source_sentence": "* Indoor speed: Max 0.5 m/s",
         "condition": {},
         "action_suggestion": "ALERT",
@@ -16,7 +16,7 @@
         "label": "DRAFT ONLY - NON-ACTIVE"
     },
     {
-        "id": "DR-955D",
+        "id": "DR-A44D",
         "source_sentence": "* Outdoor speed: Max 1.2 m/s",
         "condition": {},
         "action_suggestion": "ALERT",

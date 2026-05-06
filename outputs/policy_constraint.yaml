@@ -1,25 +1,54 @@
 rules:
-  - id: DR-46CA
+  - id: DR-5112
+    action: BLOCK
+    severity: HIGH
+    condition:
+      time: "after 10PM"
+    entities:
+      - robot
+      - Zone C
+  - id: DR-E338
+    action: ALLOW
+    severity: LOW
+    condition:
+      zone: "Zone A"
+    entities:
+      - Zone A
+  - id: DR-1F9A
+    action: ALLOW
+    severity: CRITICAL
+    entities:
+      - robot
+  - id: DR-685A
+    action: ALERT
+    severity: LOW
+    condition:
+      time: "between 8AM"
+      zone: "Zone B"
+    entities:
+      - robot
+      - Zone B
+  - id: DR-BF0E
     action: ALLOW
     severity: HIGH
     entities:
       - robot
-  - id: DR-57A7
+  - id: DR-3D4E
     action: ALERT
     severity: LOW
-  - id: DR-5431
+  - id: DR-AB6D
     action: ALLOW
     severity: CRITICAL
     condition:
       trigger: "the robot loses connection"
     entities:
       - robot
-  - id: DR-7253
+  - id: DR-252D
     action: ESCALATE
     severity: LOW
-  - id: DR-BD45
+  - id: DR-C014
     action: ALLOW
     severity: MEDIUM
-  - id: DR-E6A8
+  - id: DR-6DC0
     action: ALERT
     severity: LOW

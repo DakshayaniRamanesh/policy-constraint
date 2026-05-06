@@ -1,12 +1,15 @@
 {
     "rules": [
         {
-            "id": "DR-1EAF",
-            "source_sentence": "The robot must remain within the designated testing area.",
-            "condition": {},
-            "action_suggestion": "ALLOW",
+            "id": "DR-5112",
+            "source_sentence": "1. Robots must not enter Zone C after 10PM.",
+            "condition": {
+                "time": "after 10PM"
+            },
+            "action_suggestion": "BLOCK",
             "entities": [
-                "robot"
+                "robot",
+                "Zone C"
             ],
             "severity_suggestion": "HIGH",
             "confidence": 0.7,
@@ -14,38 +17,40 @@
             "active": false,
             "is_inferred": false,
             "label": "DRAFT ONLY - NON-ACTIVE",
-            "zone": "Testing Area",
+            "zone": "Zone C",
             "role": "unknown",
-            "action": "ALLOW",
+            "action": "BLOCK",
             "severity": "HIGH",
             "entity_requires_identity_resolution": false,
             "operator_id": null
         },
         {
-            "id": "DR-C660",
-            "source_sentence": "Any deviation from the perimeter will trigger an automatic stop.",
-            "condition": {},
-            "action_suggestion": "ALERT",
-            "entities": [],
+            "id": "DR-E338",
+            "source_sentence": "Authorized personnel only are allowed in Zone A at all times.",
+            "condition": {
+                "zone": "Zone A"
+            },
+            "action_suggestion": "ALLOW",
+            "entities": [
+                "Zone A"
+            ],
             "severity_suggestion": "LOW",
-            "confidence": 0.9,
+            "confidence": 0.7,
             "status": "APPROVED",
             "active": false,
             "is_inferred": false,
             "label": "DRAFT ONLY - NON-ACTIVE",
-            "zone": "Perimeter",
+            "zone": "Zone At",
             "role": "unknown",
-            "action": "ALERT",
+            "action": "ALLOW",
             "severity": "LOW",
             "entity_requires_identity_resolution": false,
             "operator_id": null
         },
         {
-            "id": "DR-90CE",
-            "source_sentence": "If the robot loses connection, it must sit down immediately.",
-            "condition": {
-                "trigger": "the robot loses connection"
-            },
+            "id": "DR-1F9A",
+            "source_sentence": "In case of emergency, all robots must stop immediately.",
+            "condition": {},
             "action_suggestion": "ALLOW",
             "entities": [
                 "robot"
@@ -64,37 +69,24 @@
             "operator_id": null
         },
         {
-            "id": "DR-4164",
-            "source_sentence": "Pressing the hardware E-STOP will cut power to motors.",
-            "condition": {},
-            "action_suggestion": "ESCALATE",
-            "entities": [],
-            "severity_suggestion": "LOW",
-            "confidence": 0.7,
-            "status": "APPROVED",
-            "active": false,
-            "is_inferred": false,
-            "label": "DRAFT ONLY - NON-ACTIVE",
-            "zone": "GLOBAL",
-            "role": "unknown",
-            "action": "ESCALATE",
-            "severity": "LOW",
-            "entity_requires_identity_resolution": false,
-            "operator_id": null
-        },
-        {
-            "id": "DR-DFD7",
-            "source_sentence": "Ensure the battery is above 20% before starting a mission.",
-            "condition": {},
+            "id": "DR-685A",
+            "source_sentence": "Delivery robots may operate in Zone B between 8AM and 6PM.",
+            "condition": {
+                "time": "between 8AM",
+                "zone": "Zone B"
+            },
             "action_suggestion": "ALERT",
-            "entities": [],
+            "entities": [
+                "robot",
+                "Zone B"
+            ],
             "severity_suggestion": "LOW",
             "confidence": 0.7,
             "status": "APPROVED",
             "active": false,
             "is_inferred": false,
             "label": "DRAFT ONLY - NON-ACTIVE",
-            "zone": "GLOBAL",
+            "zone": "Zone B",
             "role": "unknown",
             "action": "ALERT",
             "severity": "LOW",
@@ -102,39 +94,20 @@
             "operator_id": null
         },
         {
-            "id": "DR-6E6A",
-            "source_sentence": "* Indoor speed: Max 0.5 m/s",
-            "condition": {},
-            "action_suggestion": "ALERT",
-            "entities": [],
-            "severity_suggestion": "LOW",
-            "confidence": 0.0,
-            "status": "EDITED",
-            "active": false,
-            "is_inferred": false,
-            "label": "DRAFT ONLY - NON-ACTIVE",
-            "zone": "GLOBAL",
-            "role": "unknown",
-            "action": "ALERT",
-            "severity": "LOW",
-            "entity_requires_identity_resolution": false,
-            "operator_id": null
-        },
-        {
-            "id": "DR-FF36",
-            "source_sentence": "* Outdoor speed: Max 1.2 m/s",
+            "id": "DR-3EFA",
+            "source_sentence": "5. Robots should avoid crowded areas during peak hours.",
             "condition": {},
             "action_suggestion": "ALERT",
             "entities": [
-                "Max"
+                "robot"
             ],
             "severity_suggestion": "LOW",
-            "confidence": 0.0,
-            "status": "EDITED",
+            "confidence": 0.7,
+            "status": "APPROVED",
             "active": false,
-            "is_inferred": false,
+            "is_inferred": true,
             "label": "DRAFT ONLY - NON-ACTIVE",
-            "zone": "Outdoor",
+            "zone": "GLOBAL",
             "role": "unknown",
             "action": "ALERT",
             "severity": "LOW",
@@ -143,8 +116,8 @@
         }
     ],
     "approved_by": "Admin",
-    "timestamp": "2026-05-06T02:03:14.739506",
+    "timestamp": "2026-05-06T13:52:25.846651",
     "map_version": "v1.0",
-    "policy_version": "POL-8DCCCD",
-    "signature": "edbb23cbe30ad4649d549b73bb5ec1c807d681bf653c4a4c40dea317f2af8890"
+    "policy_version": "POL-FDBC02",
+    "signature": "c74b8df0677c8ef0a7b1e13c6bd0b20010a2a3f9c1c3ec9a41dda9a862faa653"
 }
