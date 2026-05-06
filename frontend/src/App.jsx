@@ -318,10 +318,19 @@ function App() {
         <div className="main-content">
           {/* Content Area */}
           <div className="content-area">
-            <div className="container">
-              {activeTab === 'System Dashboard' && (
+            {activeTab === 'System Dashboard' && (
+              <div className="container-full">
                 <SystemDashboard />
-              )}
+              </div>
+            )}
+
+            {activeTab === 'Executed Policies' && (
+              <div className="container-full">
+                <ExecutedPolicies />
+              </div>
+            )}
+
+            <div className="container" style={{ display: (activeTab === 'System Dashboard' || activeTab === 'Executed Policies') ? 'none' : undefined }}>
 
               {activeTab === 'Policy Review' && (
                 <>
@@ -568,10 +577,6 @@ function App() {
                     </div>
                   )}
                 </>
-              )}
-
-              {activeTab === 'Executed Policies' && (
-                <ExecutedPolicies />
               )}
 
               {activeTab === 'Direct Commands' && (
