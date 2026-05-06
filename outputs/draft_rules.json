@@ -1,6 +1,89 @@
 [
     {
-        "id": "DR-46CA",
+        "id": "DR-5112",
+        "source_sentence": "1. Robots must not enter Zone C after 10PM.",
+        "condition": {
+            "time": "after 10PM"
+        },
+        "action_suggestion": "BLOCK",
+        "entities": [
+            "robot",
+            "Zone C"
+        ],
+        "extracted_zones": [
+            "Zone C"
+        ],
+        "severity_suggestion": "HIGH",
+        "confidence": 0.7,
+        "status": "draft",
+        "active": false,
+        "is_inferred": false,
+        "label": "DRAFT ONLY - NON-ACTIVE",
+        "flag": "medium_confidence"
+    },
+    {
+        "id": "DR-E338",
+        "source_sentence": "Authorized personnel only are allowed in Zone A at all times.",
+        "condition": {
+            "zone": "Zone A"
+        },
+        "action_suggestion": "ALLOW",
+        "entities": [
+            "Zone A"
+        ],
+        "extracted_zones": [
+            "Zone At"
+        ],
+        "severity_suggestion": "LOW",
+        "confidence": 0.7,
+        "status": "draft",
+        "active": false,
+        "is_inferred": false,
+        "label": "DRAFT ONLY - NON-ACTIVE",
+        "flag": "medium_confidence"
+    },
+    {
+        "id": "DR-1F9A",
+        "source_sentence": "In case of emergency, all robots must stop immediately.",
+        "condition": {},
+        "action_suggestion": "ALLOW",
+        "entities": [
+            "robot"
+        ],
+        "extracted_zones": [],
+        "severity_suggestion": "CRITICAL",
+        "confidence": 0.7,
+        "status": "draft",
+        "active": false,
+        "is_inferred": false,
+        "label": "DRAFT ONLY - NON-ACTIVE",
+        "flag": "medium_confidence"
+    },
+    {
+        "id": "DR-685A",
+        "source_sentence": "Delivery robots may operate in Zone B between 8AM and 6PM.",
+        "condition": {
+            "time": "between 8AM",
+            "zone": "Zone B"
+        },
+        "action_suggestion": "ALERT",
+        "entities": [
+            "robot",
+            "Zone B"
+        ],
+        "extracted_zones": [
+            "Zone B"
+        ],
+        "severity_suggestion": "LOW",
+        "confidence": 0.7,
+        "status": "draft",
+        "active": false,
+        "is_inferred": false,
+        "label": "DRAFT ONLY - NON-ACTIVE",
+        "flag": "medium_confidence"
+    },
+    {
+        "id": "DR-BF0E",
         "source_sentence": "The robot must remain within the designated testing area.",
         "condition": {},
         "action_suggestion": "ALLOW",
@@ -19,7 +102,7 @@
         "flag": "medium_confidence"
     },
     {
-        "id": "DR-57A7",
+        "id": "DR-3D4E",
         "source_sentence": "Any deviation from the perimeter will trigger an automatic stop.",
         "condition": {},
         "action_suggestion": "ALERT",
@@ -35,7 +118,7 @@
         "label": "DRAFT ONLY - NON-ACTIVE"
     },
     {
-        "id": "DR-5431",
+        "id": "DR-AB6D",
         "source_sentence": "If the robot loses connection, it must sit down immediately.",
         "condition": {
             "trigger": "the robot loses connection"
@@ -54,7 +137,7 @@
         "flag": "medium_confidence"
     },
     {
-        "id": "DR-7253",
+        "id": "DR-252D",
         "source_sentence": "Pressing the hardware E-STOP will cut power to motors.",
         "condition": {},
         "action_suggestion": "ESCALATE",
@@ -69,7 +152,7 @@
         "flag": "medium_confidence"
     },
     {
-        "id": "DR-BD45",
+        "id": "DR-C014",
         "source_sentence": "Periodic checks of the leg joints are required every 10 hours of operation.",
         "condition": {},
         "action_suggestion": "ALLOW",
@@ -84,7 +167,7 @@
         "flag": "medium_confidence"
     },
     {
-        "id": "DR-E6A8",
+        "id": "DR-6DC0",
         "source_sentence": "Ensure the battery is above 20% before starting a mission.",
         "condition": {},
         "action_suggestion": "ALERT",

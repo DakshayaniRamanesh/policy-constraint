@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './index.css';
 
 function App() {
@@ -8,6 +8,121 @@ function App() {
   const [activeTab, setActiveTab] = useState('Policy Review');
   const [commandInput, setCommandInput] = useState('');
   const [availableZones, setAvailableZones] = useState(["GLOBAL"]);
+
+  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
+  const [notification, setNotification] = useState(null);
+  const [robotStarted, setRobotStarted] = useState(false);
+  const [controlMode, setControlMode] = useState('AUTONOMOUS');
+  const [joystickPos, setJoystickPos] = useState({ x: 0, y: 0 });
+  const [joystickData, setJoystickData] = useState({ x: 0, y: 0, label: 'Idle' });
+  const [isDragging, setIsDragging] = useState(false);
+  const joystickRef = useRef(null);
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date().toLocaleTimeString()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const showNotification = (message, type = 'info') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 4000);
+  };
+
+  const handleModeToggle = (mode) => {
+    const timestamp = new Date().toLocaleString();
+    setControlMode(mode);
+    console.log(`[AUDIT LOG] Mode switched to ${mode} at ${timestamp} by Operator: Admin`);
+    showNotification(`Switched to ${mode} mode`, 'info');
+  };
+
+  const handleForceStop = () => {
+    const timestamp = new Date().toLocaleString();
+    setControlMode('AUTONOMOUS');
+    setJoystickPos({ x: 0, y: 0 });
+    setJoystickData({ x: 0, y: 0, label: 'Idle' });
+    showNotification(`Force stop activated — logged at ${timestamp}`, 'error');
+    console.log(`[AUDIT LOG] Force stop activated at ${timestamp} by Operator: Admin`);
+  };
+
+  const getDirectionLabel = (x, y) => {
+    if (Math.abs(x) < 0.2 && Math.abs(y) < 0.2) return 'Idle';
+    const angle = Math.atan2(y, x) * (180 / Math.PI);
+    
+    if (angle >= -22.5 && angle < 22.5) return 'Right';
+    if (angle >= 22.5 && angle < 67.5) return 'Forward-Right';
+    if (angle >= 67.5 && angle < 112.5) return 'Forward';
+    if (angle >= 112.5 && angle < 157.5) return 'Forward-Left';
+    if (angle >= 157.5 || angle < -157.5) return 'Left';
+    if (angle >= -157.5 && angle < -112.5) return 'Backward-Left';
+    if (angle >= -112.5 && angle < -67.5) return 'Backward';
+    if (angle >= -67.5 && angle < -22.5) return 'Backward-Right';
+    return 'Idle';
+  };
+
+  const handleJoystickStart = (e) => {
+    if (controlMode === 'AUTONOMOUS') return;
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleJoystickEnd = () => {
+    setIsDragging(false);
+    setJoystickPos({ x: 0, y: 0 });
+    setJoystickData({ x: 0, y: 0, label: 'Idle' });
+  };
+
+  const handleJoystickMove = (clientX, clientY) => {
+    if (!joystickRef.current || controlMode === 'AUTONOMOUS') return;
+    const rect = joystickRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const boundaryRadius = rect.width / 2;
+
+    let dx = clientX - centerX;
+    let dy = clientY - centerY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance > boundaryRadius) {
+      dx = (dx / distance) * boundaryRadius;
+      dy = (dy / distance) * boundaryRadius;
+    }
+
+    setJoystickPos({ x: dx, y: dy });
+    
+    const normalizedX = dx / boundaryRadius;
+    const normalizedY = -dy / boundaryRadius; // Invert Y so up is positive
+    setJoystickData({
+      x: normalizedX.toFixed(2),
+      y: normalizedY.toFixed(2),
+      label: getDirectionLabel(normalizedX, normalizedY)
+    });
+  };
+
+  useEffect(() => {
+    const onMouseMove = (e) => {
+      if (isDragging) handleJoystickMove(e.clientX, e.clientY);
+    };
+    const onTouchMove = (e) => {
+      if (isDragging) handleJoystickMove(e.touches[0].clientX, e.touches[0].clientY);
+    };
+    const onMouseUp = () => {
+      if (isDragging) handleJoystickEnd();
+    };
+
+    if (isDragging) {
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+      window.addEventListener('touchmove', onTouchMove, { passive: false });
+      window.addEventListener('touchend', onMouseUp);
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onMouseUp);
+    };
+  }, [isDragging]);
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -77,7 +192,7 @@ function App() {
       setAvailableZones(Array.from(extractedZonesSet));
       setRules(mappedRules);
     } catch (error) {
-      alert(`Error processing file: ${error.message}`);
+      showNotification(`Error processing file: ${error.message}`, 'error');
     } finally {
       setIsProcessing(false);
     }
@@ -126,15 +241,15 @@ function App() {
         body: JSON.stringify(bundle)
       });
       if (response.ok) {
-        alert(`Successfully submitted ${acceptedRules.length} accepted rules to the ML Pipeline!`);
+        showNotification(`Successfully submitted ${acceptedRules.length} accepted rules to the ML Pipeline!`, 'success');
         setRules(null);
         setFile(null);
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.detail || 'Failed to submit'}`);
+        showNotification(`Error: ${errorData.detail || 'Failed to submit'}`, 'error');
       }
     } catch (err) {
-      alert(`Network error: ${err.message}`);
+      showNotification(`Network error: ${err.message}`, 'error');
     }
   };
 
@@ -147,13 +262,13 @@ function App() {
         body: JSON.stringify({ command: commandInput, operator_id: "Admin" })
       });
       if (response.ok) {
-        alert(`Command sent successfully: "${commandInput}"`);
+        showNotification(`Command sent successfully: "${commandInput}"`, 'success');
         setCommandInput('');
       } else {
-        alert('Failed to send command');
+        showNotification('Failed to send command', 'error');
       }
     } catch (err) {
-      alert(`Network error: ${err.message}`);
+      showNotification(`Network error: ${err.message}`, 'error');
     }
   };
 
@@ -164,31 +279,43 @@ function App() {
   };
 
   return (
-    <div className="app-layout">
-      {/* Sidebar Navigation */}
-      <div className="sidebar">
-        <div className="sidebar-logo">Policy Engine</div>
-        <ul className="sidebar-nav">
-          <li className={activeTab === 'Policy Review' ? "active" : ""} onClick={() => setActiveTab('Policy Review')}>Policy Review</li>
-          <li className={activeTab === 'Direct Commands' ? "active" : ""} onClick={() => setActiveTab('Direct Commands')}>Robot Commands</li>
-        </ul>
-      </div>
-
-      {/* Main Area */}
-      <div className="main-content">
-        {/* Topbar */}
-        <div className="topbar">
-          <div className="topbar-title">Policy Extraction Pipeline</div>
+    <div className="app-container">
+      {/* Topbar */}
+      <div className="topbar">
+        <div className="topbar-title">
+          <span style={{color: 'white', fontWeight: 'bold', letterSpacing: '1px'}}>ASCAR</span>
+          <span style={{color: '#ff7b00', fontWeight: 'bold', letterSpacing: '1px'}}>-E</span>
+        </div>
+        <div className="topbar-right">
+          <div className="status-box">CONNECTED</div>
+          <div className="real-time-clock">{currentTime}</div>
           <div className="topbar-user">
-            <span>Admin</span>
-            <div className="user-avatar">A</div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <div className="user-info">
+              <span className="user-name">admin</span>
+              <span className="user-role">superbase user</span>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Content Area */}
-        <div className="content-area">
+      <div className="app-layout">
+        {/* Sidebar Navigation */}
+        <div className="sidebar">
+          <ul className="sidebar-nav">
+            <li className={activeTab === 'Policy Review' ? "active" : ""} onClick={() => setActiveTab('Policy Review')}>Policy Review</li>
+            <li className={activeTab === 'Direct Commands' ? "active" : ""} onClick={() => setActiveTab('Direct Commands')}>Robot Commands</li>
+            <li className={activeTab === 'Control Panel' ? "active" : ""} onClick={() => setActiveTab('Control Panel')}>Control Panel</li>
+            <li className={activeTab === 'Alerts' ? "active" : ""} onClick={() => setActiveTab('Alerts')}>Alerts</li>
+          </ul>
+        </div>
+
+        {/* Main Area */}
+        <div className="main-content">
+          {/* Content Area */}
+          <div className="content-area">
           <div className="container">
-            {activeTab === 'Policy Review' ? (
+            {activeTab === 'Policy Review' && (
               <>
                 <div className="header">
                   <h1>Policy Review Dashboard</h1>
@@ -290,8 +417,7 @@ function App() {
                       {categoryRules.map(rule => (
                         <div key={rule.id} className={`rule-card ${getRuleCssClass(rule.status)}`}>
                           <div className="rule-header">
-                            <span className="rule-id">{rule.id}</span>
-                            <span style={{ color: '#495057', fontWeight: 'bold' }}>
+                            <span style={{ color: '#495057', fontWeight: 'bold', marginLeft: 'auto' }}>
                               Confidence: {(rule.confidence * 100).toFixed(0)}%
                             </span>
                           </div>
@@ -434,7 +560,9 @@ function App() {
               </div>
             )}
               </>
-            ) : (
+            )}
+
+            {activeTab === 'Direct Commands' && (
               <div className="command-section">
                 <div className="header">
                   <h1>Direct Robot Commands</h1>
@@ -459,9 +587,107 @@ function App() {
                 </div>
               </div>
             )}
+
+            {activeTab === 'Control Panel' && (
+              <div className="control-panel-section">
+                <div className="header">
+                  <h1>Control Panel</h1>
+                  <p>Direct manual override and joystick controls.</p>
+                </div>
+                  <div className="control-panel-container">
+                    {/* Part 1: Mode Toggle */}
+                    <div className="mode-toggle-section">
+                      <div className="toggle-group">
+                        <button 
+                          className={`toggle-btn ${controlMode === 'AUTONOMOUS' ? 'active' : ''}`}
+                          onClick={() => handleModeToggle('AUTONOMOUS')}
+                        >
+                          AUTONOMOUS
+                        </button>
+                        <button 
+                          className={`toggle-btn ${controlMode === 'MANUAL' ? 'active' : ''}`}
+                          onClick={() => handleModeToggle('MANUAL')}
+                        >
+                          MANUAL
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Part 2: Virtual Joystick */}
+                    <div className={`joystick-section ${controlMode === 'AUTONOMOUS' ? 'disabled' : ''}`}>
+                      <div className="joystick-wrapper">
+                        <div className="joystick-boundary" ref={joystickRef}>
+                          <div 
+                            className="joystick-thumb"
+                            style={{ transform: `translate(${joystickPos.x}px, ${joystickPos.y}px)` }}
+                            onMouseDown={handleJoystickStart}
+                            onTouchStart={handleJoystickStart}
+                          />
+                        </div>
+                        <div className="joystick-status">
+                          <span className="direction-label">{joystickData.label}</span>
+                          <span className="coords-label">X: {joystickData.x} Y: {joystickData.y}</span>
+                        </div>
+                        {controlMode === 'AUTONOMOUS' && (
+                          <div className="joystick-overlay-text">Robot is operating autonomously</div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Part 3: Force Stop */}
+                    <div className="force-stop-section">
+                      <button className="force-stop-btn-pro" onClick={handleForceStop}>
+                        FORCE STOP
+                      </button>
+                    </div>
+                  </div>
+              </div>
+            )}
+
+            {activeTab === 'Alerts' && (
+              <div className="alerts-section">
+                <div className="header">
+                  <h1>System Alerts</h1>
+                  <p>Real-time notifications and incident logs.</p>
+                </div>
+                
+                <h3 className="alert-heading critical">Critical Alerts</h3>
+                <div className="alert-list">
+                  <div className="alert-card critical-alert">
+                    <div className="alert-time">14:02:15</div>
+                    <div className="alert-msg"><strong>Unauthorized Access:</strong> Person detected entering restricted Sector B without clearance.</div>
+                  </div>
+                  <div className="alert-card critical-alert">
+                    <div className="alert-time">11:45:03</div>
+                    <div className="alert-msg"><strong>Collision Avoidance:</strong> E-stop triggered due to sudden obstacle in path.</div>
+                  </div>
+                </div>
+
+                <h3 className="alert-heading normal">Normal Alerts</h3>
+                <div className="alert-list">
+                  <div className="alert-card normal-alert">
+                    <div className="alert-time">13:30:00</div>
+                    <div className="alert-msg"><strong>Patrol Update:</strong> Chair count reduced in Conference Room A. (Expected: 12, Found: 10)</div>
+                  </div>
+                  <div className="alert-card normal-alert">
+                    <div className="alert-time">09:15:22</div>
+                    <div className="alert-msg"><strong>System Status:</strong> Routine battery cycle check completed successfully.</div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
+    </div>
+      
+      {notification && (
+        <div className={`notification toast-${notification.type}`}>
+          <div className="notification-content">
+            {notification.message}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
