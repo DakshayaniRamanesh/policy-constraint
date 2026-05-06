@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './index.css';
 import SystemDashboard from './SystemDashboard';
 import ExecutedPolicies from './ExecutedPolicies';
+import SystemAlerts from './SystemAlerts';
 
 function App() {
   const [file, setFile] = useState(null);
@@ -30,10 +31,33 @@ function App() {
     setTimeout(() => setNotification(null), 4000);
   };
 
+  const sendAuditLog = async (type, action, actionSub, severity = 'LOW', ruleId = 'SYSTEM') => {
+    const entry = {
+      timestamp: new Date().toLocaleString('sv-SE'), // Returns YYYY-MM-DD HH:MM:SS
+      operator: "admin",
+      role: "superbase user",
+      type: type,
+      action: action,
+      action_sub: actionSub,
+      severity: severity,
+      rule_id: ruleId
+    };
+    try {
+      await fetch("http://localhost:8000/audit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(entry)
+      });
+    } catch (err) {
+      console.error("Failed to log audit event:", err);
+    }
+  };
+
   const handleModeToggle = (mode) => {
-    const timestamp = new Date().toLocaleString();
     setControlMode(mode);
-    console.log(`[AUDIT LOG] Mode switched to ${mode} at ${timestamp} by Operator: Admin`);
+    const action = `Control mode switched to ${mode}.`;
+    const actionSub = `Manual override initiated by operator.`;
+    sendAuditLog('MODE SWITCH', action, actionSub, 'MEDIUM', 'SYS-MODE');
     showNotification(`Switched to ${mode} mode`, 'info');
   };
 
@@ -42,8 +66,12 @@ function App() {
     setControlMode('AUTONOMOUS');
     setJoystickPos({ x: 0, y: 0 });
     setJoystickData({ x: 0, y: 0, label: 'Idle' });
-    showNotification(`Force stop activated — logged at ${timestamp}`, 'error');
-    console.log(`[AUDIT LOG] Force stop activated at ${timestamp} by Operator: Admin`);
+    
+    const action = "Emergency stop issued. All robot motion halted immediately.";
+    const actionSub = "System reset to AUTONOMOUS mode after manual intervention.";
+    sendAuditLog('FORCE STOP', action, actionSub, 'CRITICAL', 'SYS-ESTOP');
+    
+    showNotification(`Force stop activated logged at ${timestamp}`, 'error');
   };
 
   const getDirectionLabel = (x, y) => {
@@ -233,7 +261,7 @@ function App() {
   const handleSubmitToML = async () => {
     const acceptedRules = rules.filter(r => ['APPROVED', 'EDITED'].includes(r.status));
     const bundle = {
-      operator_id: "Admin",
+      operator_id: "admin",
       rules: acceptedRules
     };
     try {
@@ -261,7 +289,7 @@ function App() {
       const response = await fetch("http://localhost:8000/command", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ command: commandInput, operator_id: "Admin" })
+        body: JSON.stringify({ command: commandInput, operator_id: "admin" })
       });
       if (response.ok) {
         showNotification(`Command sent successfully: "${commandInput}"`, 'success');
@@ -310,7 +338,7 @@ function App() {
             <li className={activeTab === 'Direct Commands' ? "active" : ""} onClick={() => setActiveTab('Direct Commands')}>Robot Commands</li>
             <li className={activeTab === 'Control Panel' ? "active" : ""} onClick={() => setActiveTab('Control Panel')}>Control Panel</li>
             <li className={activeTab === 'Alerts' ? "active" : ""} onClick={() => setActiveTab('Alerts')}>Alerts</li>
-            <li className={activeTab === 'Executed Policies' ? "active" : ""} onClick={() => setActiveTab('Executed Policies')}>Executed Policies</li>
+            <li className={activeTab === 'Audit Logs' ? "active" : ""} onClick={() => setActiveTab('Audit Logs')}>Audit Logs</li>
           </ul>
         </div>
 
@@ -318,10 +346,25 @@ function App() {
         <div className="main-content">
           {/* Content Area */}
           <div className="content-area">
-            <div className="container">
-              {activeTab === 'System Dashboard' && (
+            {activeTab === 'System Dashboard' && (
+              <div className="container-full">
                 <SystemDashboard />
-              )}
+              </div>
+            )}
+
+            {activeTab === 'Audit Logs' && (
+              <div className="container-full">
+                <ExecutedPolicies />
+              </div>
+            )}
+
+            {activeTab === 'Alerts' && (
+              <div className="container-full">
+                <SystemAlerts />
+              </div>
+            )}
+
+            <div className="container" style={{ display: (activeTab === 'System Dashboard' || activeTab === 'Audit Logs' || activeTab === 'Alerts') ? 'none' : undefined }}>
 
               {activeTab === 'Policy Review' && (
                 <>
@@ -570,10 +613,6 @@ function App() {
                 </>
               )}
 
-              {activeTab === 'Executed Policies' && (
-                <ExecutedPolicies />
-              )}
-
               {activeTab === 'Direct Commands' && (
                 <div className="command-section">
                   <div className="header">
@@ -656,38 +695,6 @@ function App() {
                 </div>
               )}
 
-              {activeTab === 'Alerts' && (
-                <div className="alerts-section">
-                  <div className="header">
-                    <h1>System Alerts</h1>
-                    <p>Real-time notifications and incident logs.</p>
-                  </div>
-                  
-                  <h3 className="alert-heading critical">Critical Alerts</h3>
-                  <div className="alert-list">
-                    <div className="alert-card critical-alert">
-                      <div className="alert-time">14:02:15</div>
-                      <div className="alert-msg"><strong>Unauthorized Access:</strong> Person detected entering restricted Sector B without clearance.</div>
-                    </div>
-                    <div className="alert-card critical-alert">
-                      <div className="alert-time">11:45:03</div>
-                      <div className="alert-msg"><strong>Collision Avoidance:</strong> E-stop triggered due to sudden obstacle in path.</div>
-                    </div>
-                  </div>
-
-                  <h3 className="alert-heading normal">Normal Alerts</h3>
-                  <div className="alert-list">
-                    <div className="alert-card normal-alert">
-                      <div className="alert-time">13:30:00</div>
-                      <div className="alert-msg"><strong>Patrol Update:</strong> Chair count reduced in Conference Room A. (Expected: 12, Found: 10)</div>
-                    </div>
-                    <div className="alert-card normal-alert">
-                      <div className="alert-time">09:15:22</div>
-                      <div className="alert-msg"><strong>System Status:</strong> Routine battery cycle check completed successfully.</div>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>

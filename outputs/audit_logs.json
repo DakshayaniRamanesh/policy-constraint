@@ -1,7 +1,7 @@
 {
     "audit_templates": [
         {
-            "rule_id": "DR-5112",
+            "rule_id": "DR-E70C",
             "timestamp": "<TIMESTAMP_PLACEHOLDER>",
             "zone": "UNKNOWN",
             "entities_involved": [
@@ -13,7 +13,7 @@
             "trigger_event": "UNKNOWN"
         },
         {
-            "rule_id": "DR-E338",
+            "rule_id": "DR-144B",
             "timestamp": "<TIMESTAMP_PLACEHOLDER>",
             "zone": "Zone A",
             "entities_involved": [
@@ -24,7 +24,7 @@
             "trigger_event": "UNKNOWN"
         },
         {
-            "rule_id": "DR-1F9A",
+            "rule_id": "DR-D393",
             "timestamp": "<TIMESTAMP_PLACEHOLDER>",
             "zone": "UNKNOWN",
             "entities_involved": [
@@ -35,71 +35,13 @@
             "trigger_event": "UNKNOWN"
         },
         {
-            "rule_id": "DR-685A",
+            "rule_id": "DR-3CB7",
             "timestamp": "<TIMESTAMP_PLACEHOLDER>",
             "zone": "Zone B",
             "entities_involved": [
                 "robot",
                 "Zone B"
             ],
-            "action_taken": "ALERT",
-            "severity": "LOW",
-            "trigger_event": "UNKNOWN"
-        },
-        {
-            "rule_id": "DR-BF0E",
-            "timestamp": "<TIMESTAMP_PLACEHOLDER>",
-            "zone": "UNKNOWN",
-            "entities_involved": [
-                "robot"
-            ],
-            "action_taken": "ALLOW",
-            "severity": "HIGH",
-            "trigger_event": "UNKNOWN"
-        },
-        {
-            "rule_id": "DR-3D4E",
-            "timestamp": "<TIMESTAMP_PLACEHOLDER>",
-            "zone": "UNKNOWN",
-            "entities_involved": [],
-            "action_taken": "ALERT",
-            "severity": "LOW",
-            "trigger_event": "UNKNOWN"
-        },
-        {
-            "rule_id": "DR-AB6D",
-            "timestamp": "<TIMESTAMP_PLACEHOLDER>",
-            "zone": "UNKNOWN",
-            "entities_involved": [
-                "robot"
-            ],
-            "action_taken": "ALLOW",
-            "severity": "CRITICAL",
-            "trigger_event": "the robot loses connection"
-        },
-        {
-            "rule_id": "DR-252D",
-            "timestamp": "<TIMESTAMP_PLACEHOLDER>",
-            "zone": "UNKNOWN",
-            "entities_involved": [],
-            "action_taken": "ESCALATE",
-            "severity": "LOW",
-            "trigger_event": "UNKNOWN"
-        },
-        {
-            "rule_id": "DR-C014",
-            "timestamp": "<TIMESTAMP_PLACEHOLDER>",
-            "zone": "UNKNOWN",
-            "entities_involved": [],
-            "action_taken": "ALLOW",
-            "severity": "MEDIUM",
-            "trigger_event": "UNKNOWN"
-        },
-        {
-            "rule_id": "DR-6DC0",
-            "timestamp": "<TIMESTAMP_PLACEHOLDER>",
-            "zone": "UNKNOWN",
-            "entities_involved": [],
             "action_taken": "ALERT",
             "severity": "LOW",
             "trigger_event": "UNKNOWN"

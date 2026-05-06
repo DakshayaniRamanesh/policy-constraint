@@ -1,5 +1,5 @@
 rules:
-  - id: DR-5112
+  - id: DR-E70C
     action: BLOCK
     severity: HIGH
     condition:
@@ -7,19 +7,19 @@ rules:
     entities:
       - robot
       - Zone C
-  - id: DR-E338
+  - id: DR-144B
     action: ALLOW
     severity: LOW
     condition:
       zone: "Zone A"
     entities:
       - Zone A
-  - id: DR-1F9A
+  - id: DR-D393
     action: ALLOW
     severity: CRITICAL
     entities:
       - robot
-  - id: DR-685A
+  - id: DR-3CB7
     action: ALERT
     severity: LOW
     condition:
@@ -28,27 +28,3 @@ rules:
     entities:
       - robot
       - Zone B
-  - id: DR-BF0E
-    action: ALLOW
-    severity: HIGH
-    entities:
-      - robot
-  - id: DR-3D4E
-    action: ALERT
-    severity: LOW
-  - id: DR-AB6D
-    action: ALLOW
-    severity: CRITICAL
-    condition:
-      trigger: "the robot loses connection"
-    entities:
-      - robot
-  - id: DR-252D
-    action: ESCALATE
-    severity: LOW
-  - id: DR-C014
-    action: ALLOW
-    severity: MEDIUM
-  - id: DR-6DC0
-    action: ALERT
-    severity: LOW

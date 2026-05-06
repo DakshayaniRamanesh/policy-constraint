@@ -1,9 +1,11 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: #f4f6f8;
-  color: #333;
+  color: #1a1a2e;
   margin: 0;
   padding: 0;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .app-container {
@@ -20,11 +22,14 @@ body {
 }
 
 .sidebar {
-  width: 250px;
+  width: 220px;
+  min-width: 220px;
+  flex-shrink: 0;
   background-color: #ffffff;
   border-right: 1px solid #e1e4e8;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .sidebar-logo {
@@ -42,11 +47,18 @@ body {
 }
 
 .sidebar-nav li {
-  padding: 15px 20px;
+  padding: 18px 20px;
   border-bottom: 1px solid #f0f0f0;
   cursor: pointer;
   color: #555;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.2s;
 }
 
 .sidebar-nav li:hover {
@@ -133,26 +145,36 @@ body {
 
 .content-area {
   flex-grow: 1;
-  padding: 30px;
+  padding: 24px 28px;
   overflow-y: auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
+/* Both container variants — full width, same padding/font */
+.container,
+.container-full {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .header {
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 .header h1 {
-  font-size: 24px;
-  margin-bottom: 5px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 .header p {
-  color: #666;
+  color: #5a6478;
+  font-size: 13px;
+  margin: 0;
 }
 
 .upload-section {

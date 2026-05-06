@@ -1,0 +1,162 @@
+[
+    {
+        "timestamp": "2026-05-06 18:29:11",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "FORCE STOP",
+        "action": "Emergency stop issued. All robot motion halted immediately.",
+        "action_sub": "System reset to AUTONOMOUS mode after manual intervention.",
+        "severity": "CRITICAL",
+        "rule_id": "SYS-ESTOP"
+    },
+    {
+        "timestamp": "2026-05-06 18:29:00",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "MODE SWITCH",
+        "action": "Control mode switched to AUTONOMOUS.",
+        "action_sub": "Manual override initiated by operator.",
+        "severity": "MEDIUM",
+        "rule_id": "SYS-MODE"
+    },
+    {
+        "timestamp": "2026-05-06 18:29:00",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "MODE SWITCH",
+        "action": "Control mode switched to MANUAL.",
+        "action_sub": "Manual override initiated by operator.",
+        "severity": "MEDIUM",
+        "rule_id": "SYS-MODE"
+    },
+    {
+        "timestamp": "2026-05-06 18:28:58",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "MODE SWITCH",
+        "action": "Control mode switched to AUTONOMOUS.",
+        "action_sub": "Manual override initiated by operator.",
+        "severity": "MEDIUM",
+        "rule_id": "SYS-MODE"
+    },
+    {
+        "timestamp": "2026-05-06 18:28:47",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "MODE SWITCH",
+        "action": "Control mode switched to MANUAL.",
+        "action_sub": "Manual override initiated by operator.",
+        "severity": "MEDIUM",
+        "rule_id": "SYS-MODE"
+    },
+    {
+        "timestamp": "2026-05-06 12:55:29",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "FORCE STOP",
+        "action": "Emergency stop issued. All robot motion halted immediately.",
+        "action_sub": "System reset to AUTONOMOUS mode after manual intervention.",
+        "severity": "CRITICAL",
+        "rule_id": "SYS-ESTOP"
+    },
+    {
+        "timestamp": "2026-05-06 12:55:24",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "MODE SWITCH",
+        "action": "Control mode switched to MANUAL.",
+        "action_sub": "Manual override initiated by operator.",
+        "severity": "MEDIUM",
+        "rule_id": "SYS-MODE"
+    },
+    {
+        "timestamp": "2026-05-06 12:45:13",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "FORCE STOP",
+        "action": "Emergency stop issued. All robot motion halted immediately.",
+        "action_sub": "System reset to AUTONOMOUS mode after manual intervention.",
+        "severity": "CRITICAL",
+        "rule_id": "SYS-ESTOP"
+    },
+    {
+        "timestamp": "2024-05-06 14:02:15",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "FORCE STOP",
+        "action": "Emergency stop issued. All robot motion halted immediately.",
+        "action_sub": "System reset to AUTONOMOUS mode after intervention.",
+        "severity": "CRITICAL",
+        "rule_id": "SYS-ESTOP"
+    },
+    {
+        "timestamp": "2024-05-06 13:58:40",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "MODE SWITCH",
+        "action": "Control mode switched from AUTONOMOUS to MANUAL.",
+        "action_sub": "Session ID: OP-0047. Reason: scheduled maintenance check.",
+        "severity": "HIGH",
+        "rule_id": "SYS-MODE"
+    },
+    {
+        "timestamp": "2024-05-06 13:54:38",
+        "operator": "Policy Engine",
+        "role": "Automated Agent",
+        "type": "RULE MATCH",
+        "action": "Rule R-003 triggered. ALERT raised for unrecognized human detection.",
+        "action_sub": "Zone: LAB-B. Time: 13:54:38. Proximity: 3.8 m.",
+        "severity": "HIGH",
+        "rule_id": "R-003"
+    },
+    {
+        "timestamp": "2024-05-06 13:47:10",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "APPROVED",
+        "action": "Rule DR-001 approved. BLOCK access to Zone C after 22:00.",
+        "action_sub": "Confidence: 97%. Category: High Confidence.",
+        "severity": "CRITICAL",
+        "rule_id": "DR-001"
+    },
+    {
+        "timestamp": "2024-05-06 13:45:22",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "EDITED",
+        "action": "Rule DR-005 edited. Severity escalated from HIGH to CRITICAL.",
+        "action_sub": "Zone override changed from Indoor to Stairwell.",
+        "severity": "CRITICAL",
+        "rule_id": "DR-005"
+    },
+    {
+        "timestamp": "2024-05-06 13:40:05",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "REJECTED",
+        "action": "Rule DR-007 rejected due to insufficient confidence score.",
+        "action_sub": "Confidence: 58%. Reason: ambiguous source clause.",
+        "severity": "LOW",
+        "rule_id": "DR-007"
+    },
+    {
+        "timestamp": "2024-05-06 13:33:18",
+        "operator": "Policy Engine",
+        "role": "Automated Agent",
+        "type": "VIOLATION",
+        "action": "Speed limit violation detected. Robot was travelling at 1.8 m/s indoors.",
+        "action_sub": "Rule R-002 enforcement triggered automatically.",
+        "severity": "HIGH",
+        "rule_id": "R-002"
+    },
+    {
+        "timestamp": "2024-05-06 13:22:44",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "APPROVED",
+        "action": "Rule DR-003 approved. ALLOW standard patrol from 06:00 to 22:00.",
+        "action_sub": "Zone: Patrol Grid A. Category: Medium Confidence.",
+        "severity": "MEDIUM",
+        "rule_id": "DR-003"
+    }
+]
