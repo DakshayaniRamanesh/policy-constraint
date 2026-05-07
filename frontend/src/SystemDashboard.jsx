@@ -70,7 +70,7 @@ const ChipIcon = ({ color }) => (
 );
 
 // ─── Stat Card — sharp edges, colored top border ───────────────────────────────
-const StatCard = ({ label, value, icon, topColor, valueColor }) => (
+const StatCard = ({ label, value, icon, topColor, valueColor, useMono = true }) => (
   <div style={{
     background: P.surface,
     border: `1px solid ${P.border}`,
@@ -100,12 +100,13 @@ const StatCard = ({ label, value, icon, topColor, valueColor }) => (
     </div>
     {/* Value */}
     <div style={{
-      fontSize: 34,
-      fontWeight: 800,
+      fontSize: useMono ? 28 : 24,
+      fontWeight: useMono ? 700 : 800,
       lineHeight: 1.1,
       color: valueColor || P.text,
-      fontFamily: P.font,
-      marginTop: 4,
+      fontFamily: useMono ? P.mono : P.font,
+      marginTop: useMono ? 6 : 4,
+      letterSpacing: useMono ? "-0.02em" : "-0.01em",
     }}>
       {value}
     </div>
@@ -222,6 +223,7 @@ export default function SystemDashboard() {
           icon={<PinIcon />}
           topColor={P.accent}
           valueColor={P.accent}
+          useMono={false}
         />
         <StatCard
           label="Robot Status"
@@ -229,6 +231,7 @@ export default function SystemDashboard() {
           icon={<RobotIcon />}
           topColor={P.accent}
           valueColor={P.text}
+          useMono={false}
         />
         <StatCard
           label="GPU Usage"
