@@ -3,6 +3,7 @@ import './index.css';
 import SystemDashboard from './SystemDashboard';
 import ExecutedPolicies from './ExecutedPolicies';
 import SystemAlerts from './SystemAlerts';
+import ZoneMapping from './ZoneMapping';
 
 function App() {
   const [file, setFile] = useState(null);
@@ -337,6 +338,7 @@ function App() {
             <li className={activeTab === 'Policy Review' ? "active" : ""} onClick={() => setActiveTab('Policy Review')}>Policy Review</li>
             <li className={activeTab === 'Direct Commands' ? "active" : ""} onClick={() => setActiveTab('Direct Commands')}>Robot Commands</li>
             <li className={activeTab === 'Control Panel' ? "active" : ""} onClick={() => setActiveTab('Control Panel')}>Control Panel</li>
+            <li className={activeTab === 'Zone Mapping' ? "active" : ""} onClick={() => setActiveTab('Zone Mapping')}>Zone Mapping</li>
             <li className={activeTab === 'Alerts' ? "active" : ""} onClick={() => setActiveTab('Alerts')}>Alerts</li>
             <li className={activeTab === 'Audit Logs' ? "active" : ""} onClick={() => setActiveTab('Audit Logs')}>Audit Logs</li>
           </ul>
@@ -358,13 +360,19 @@ function App() {
               </div>
             )}
 
+            {activeTab === 'Zone Mapping' && (
+              <div className="container-full">
+                <ZoneMapping />
+              </div>
+            )}
+
             {activeTab === 'Alerts' && (
               <div className="container-full">
                 <SystemAlerts />
               </div>
             )}
 
-            <div className="container" style={{ display: (activeTab === 'System Dashboard' || activeTab === 'Audit Logs' || activeTab === 'Alerts') ? 'none' : undefined }}>
+            <div className="container" style={{ display: (activeTab === 'System Dashboard' || activeTab === 'Audit Logs' || activeTab === 'Alerts' || activeTab === 'Zone Mapping') ? 'none' : undefined }}>
 
               {activeTab === 'Policy Review' && (
                 <>
