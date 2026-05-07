@@ -1,5 +1,5 @@
 rules:
-  - id: DR-E70C
+  - id: DR-02EB
     action: BLOCK
     severity: HIGH
     condition:
@@ -7,24 +7,24 @@ rules:
     entities:
       - robot
       - Zone C
-  - id: DR-144B
+  - id: DR-5C24
     action: ALLOW
     severity: LOW
     condition:
       zone: "Zone A"
     entities:
       - Zone A
-  - id: DR-D393
+  - id: DR-D150
     action: ALLOW
     severity: CRITICAL
     entities:
       - robot
-  - id: DR-3CB7
+  - id: DR-B80A
     action: ALERT
     severity: LOW
     condition:
       time: "between 8AM"
       zone: "Zone B"
     entities:
-      - robot
       - Zone B
+      - robot

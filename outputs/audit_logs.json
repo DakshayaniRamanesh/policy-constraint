@@ -1,7 +1,7 @@
 {
     "audit_templates": [
         {
-            "rule_id": "DR-E70C",
+            "rule_id": "DR-02EB",
             "timestamp": "<TIMESTAMP_PLACEHOLDER>",
             "zone": "UNKNOWN",
             "entities_involved": [
@@ -13,7 +13,7 @@
             "trigger_event": "UNKNOWN"
         },
         {
-            "rule_id": "DR-144B",
+            "rule_id": "DR-5C24",
             "timestamp": "<TIMESTAMP_PLACEHOLDER>",
             "zone": "Zone A",
             "entities_involved": [
@@ -24,7 +24,7 @@
             "trigger_event": "UNKNOWN"
         },
         {
-            "rule_id": "DR-D393",
+            "rule_id": "DR-D150",
             "timestamp": "<TIMESTAMP_PLACEHOLDER>",
             "zone": "UNKNOWN",
             "entities_involved": [
@@ -35,12 +35,12 @@
             "trigger_event": "UNKNOWN"
         },
         {
-            "rule_id": "DR-3CB7",
+            "rule_id": "DR-B80A",
             "timestamp": "<TIMESTAMP_PLACEHOLDER>",
             "zone": "Zone B",
             "entities_involved": [
-                "robot",
-                "Zone B"
+                "Zone B",
+                "robot"
             ],
             "action_taken": "ALERT",
             "severity": "LOW",

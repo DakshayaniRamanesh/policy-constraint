@@ -1,5 +1,135 @@
 [
     {
+        "timestamp": "2026-05-07 21:12:51",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "FORCE STOP",
+        "action": "Emergency stop issued. All robot motion halted immediately.",
+        "action_sub": "System reset to AUTONOMOUS mode after manual intervention.",
+        "severity": "CRITICAL",
+        "rule_id": "SYS-ESTOP"
+    },
+    {
+        "timestamp": "2026-05-07 21:12:45",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "MODE SWITCH",
+        "action": "Control mode switched to MANUAL.",
+        "action_sub": "Manual override initiated by operator.",
+        "severity": "MEDIUM",
+        "rule_id": "SYS-MODE"
+    },
+    {
+        "timestamp": "2026-05-07 21:12:05",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "APPROVED",
+        "action": "Rule DR-5636 approved. ALERT access to GLOBAL.",
+        "action_sub": "Confidence: 70%. Source: 5. Robots should avoid crowded areas during peak h...",
+        "severity": "LOW",
+        "rule_id": "DR-5636"
+    },
+    {
+        "timestamp": "2026-05-07 21:12:05",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "APPROVED",
+        "action": "Rule DR-B80A approved. ALERT access to Zone B.",
+        "action_sub": "Confidence: 70%. Source: Delivery robots may operate in Zone B between 8AM ...",
+        "severity": "LOW",
+        "rule_id": "DR-B80A"
+    },
+    {
+        "timestamp": "2026-05-07 21:12:05",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "APPROVED",
+        "action": "Rule DR-5C24 approved. ALLOW access to Zone At.",
+        "action_sub": "Confidence: 70%. Source: Authorized personnel only are allowed in Zone A at...",
+        "severity": "LOW",
+        "rule_id": "DR-5C24"
+    },
+    {
+        "timestamp": "2026-05-07 21:12:05",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "APPROVED",
+        "action": "Rule DR-02EB approved. BLOCK access to Zone C.",
+        "action_sub": "Confidence: 70%. Source: 1. Robots must not enter Zone C after 10PM....",
+        "severity": "HIGH",
+        "rule_id": "DR-02EB"
+    },
+    {
+        "timestamp": "2026-05-07 18:04:30",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "MODE SWITCH",
+        "action": "Control mode switched to AUTONOMOUS.",
+        "action_sub": "Manual override initiated by operator.",
+        "severity": "MEDIUM",
+        "rule_id": "SYS-MODE"
+    },
+    {
+        "timestamp": "2026-05-07 18:03:40",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "MODE SWITCH",
+        "action": "Control mode switched to MANUAL.",
+        "action_sub": "Manual override initiated by operator.",
+        "severity": "MEDIUM",
+        "rule_id": "SYS-MODE"
+    },
+    {
+        "timestamp": "2026-05-07 18:01:04",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "MODE SWITCH",
+        "action": "Control mode switched to AUTONOMOUS.",
+        "action_sub": "Manual override initiated by operator.",
+        "severity": "MEDIUM",
+        "rule_id": "SYS-MODE"
+    },
+    {
+        "timestamp": "2026-05-07 18:01:02",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "MODE SWITCH",
+        "action": "Control mode switched to MANUAL.",
+        "action_sub": "Manual override initiated by operator.",
+        "severity": "MEDIUM",
+        "rule_id": "SYS-MODE"
+    },
+    {
+        "timestamp": "2026-05-07 13:56:30",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "DIRECT COMMAND",
+        "action": "Manual command executed: hi",
+        "action_sub": "Command sent via real-time interface bypass.",
+        "severity": "MEDIUM",
+        "rule_id": "SYS-CMD"
+    },
+    {
+        "timestamp": "2026-05-07 13:56:19",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "FORCE STOP",
+        "action": "Emergency stop issued. All robot motion halted immediately.",
+        "action_sub": "System reset to AUTONOMOUS mode after manual intervention.",
+        "severity": "CRITICAL",
+        "rule_id": "SYS-ESTOP"
+    },
+    {
+        "timestamp": "2026-05-07 13:56:15",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "MODE SWITCH",
+        "action": "Control mode switched to MANUAL.",
+        "action_sub": "Manual override initiated by operator.",
+        "severity": "MEDIUM",
+        "rule_id": "SYS-MODE"
+    },
+    {
         "timestamp": "2026-05-06 18:29:11",
         "operator": "admin",
         "role": "superbase user",

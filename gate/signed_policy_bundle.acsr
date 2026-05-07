@@ -1,7 +1,7 @@
 {
     "rules": [
         {
-            "id": "DR-5112",
+            "id": "DR-02EB",
             "source_sentence": "1. Robots must not enter Zone C after 10PM.",
             "condition": {
                 "time": "after 10PM"
@@ -25,7 +25,7 @@
             "operator_id": null
         },
         {
-            "id": "DR-E338",
+            "id": "DR-5C24",
             "source_sentence": "Authorized personnel only are allowed in Zone A at all times.",
             "condition": {
                 "zone": "Zone A"
@@ -48,28 +48,7 @@
             "operator_id": null
         },
         {
-            "id": "DR-1F9A",
-            "source_sentence": "In case of emergency, all robots must stop immediately.",
-            "condition": {},
-            "action_suggestion": "ALLOW",
-            "entities": [
-                "robot"
-            ],
-            "severity_suggestion": "CRITICAL",
-            "confidence": 0.7,
-            "status": "APPROVED",
-            "active": false,
-            "is_inferred": false,
-            "label": "DRAFT ONLY - NON-ACTIVE",
-            "zone": "GLOBAL",
-            "role": "unknown",
-            "action": "ALLOW",
-            "severity": "CRITICAL",
-            "entity_requires_identity_resolution": false,
-            "operator_id": null
-        },
-        {
-            "id": "DR-685A",
+            "id": "DR-B80A",
             "source_sentence": "Delivery robots may operate in Zone B between 8AM and 6PM.",
             "condition": {
                 "time": "between 8AM",
@@ -77,8 +56,8 @@
             },
             "action_suggestion": "ALERT",
             "entities": [
-                "robot",
-                "Zone B"
+                "Zone B",
+                "robot"
             ],
             "severity_suggestion": "LOW",
             "confidence": 0.7,
@@ -94,7 +73,7 @@
             "operator_id": null
         },
         {
-            "id": "DR-3EFA",
+            "id": "DR-5636",
             "source_sentence": "5. Robots should avoid crowded areas during peak hours.",
             "condition": {},
             "action_suggestion": "ALERT",
@@ -115,9 +94,9 @@
             "operator_id": null
         }
     ],
-    "approved_by": "Admin",
-    "timestamp": "2026-05-06T13:52:25.846651",
+    "approved_by": "admin",
+    "timestamp": "2026-05-07 21:12:05",
     "map_version": "v1.0",
-    "policy_version": "POL-FDBC02",
-    "signature": "c74b8df0677c8ef0a7b1e13c6bd0b20010a2a3f9c1c3ec9a41dda9a862faa653"
+    "policy_version": "POL-FFFEF1",
+    "signature": "7ed4aaae2a7e52884b5cfdecde3db814a7054b985dbef5654c8f4a7664757163"
 }
