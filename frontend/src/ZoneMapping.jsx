@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import './index.css';
+import SlamMap3D from './SlamMap3D';
 
 // Perfectly aligned grid coordinates (Maximizing width)
 const GRID = {
@@ -27,6 +28,7 @@ export default function ZoneMapping() {
   const [zones, setZones] = useState(INITIAL_ZONES);
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawPoints, setDrawPoints] = useState([]);
+  const [viewMode, setViewMode] = useState('2D');
   const svgRef = useRef(null);
 
   const getSvgCoordinates = (e) => {
@@ -72,6 +74,55 @@ export default function ZoneMapping() {
 
   return (
     <div className="zone-mapping-container dark-theme">
+
+      {/* ── View Mode Toggle ────────────────────────────────────────── */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 0,
+        background: '#0d1117',
+        border: '1px solid #1e2d3d',
+        borderRadius: 8,
+        padding: 4,
+        marginBottom: 10,
+        width: 'fit-content',
+        alignSelf: 'flex-start',
+      }}>
+        {['2D', '3D'].map(mode => (
+          <button
+            key={mode}
+            onClick={() => setViewMode(mode)}
+            style={{
+              padding: '6px 22px',
+              fontSize: 11,
+              fontFamily: 'monospace',
+              fontWeight: 'bold',
+              letterSpacing: 1.5,
+              cursor: 'pointer',
+              borderRadius: 5,
+              border: 'none',
+              outline: 'none',
+              transition: 'all 0.2s',
+              background: viewMode === mode
+                ? 'linear-gradient(135deg, #00ffcc22, #00ffcc11)'
+                : 'transparent',
+              color: viewMode === mode ? '#00ffcc' : '#445566',
+              boxShadow: viewMode === mode ? '0 0 12px #00ffcc22' : 'none',
+              borderRight: mode === '2D' ? '1px solid #1e2d3d' : 'none',
+            }}
+          >
+            {mode === '2D' ? '⬜ 2D MAP' : '⬛ 3D SLAM'}
+          </button>
+        ))}
+      </div>
+
+      {/* ── 3D SLAM View ────────────────────────────────────────────── */}
+      {viewMode === '3D' && (
+        <div style={{ height: 'calc(100vh - 160px)', minHeight: 520, borderRadius: 8, overflow: 'hidden', border: '1px solid #1e2d3d' }}>
+          <SlamMap3D />
+        </div>
+      )}
+
+      {/* ── 2D Map View ─────────────────────────────────────────────── */}
+      {viewMode === '2D' && (
       <div className="office-interface-layout">
         
         {/* Left Sidebar */}
@@ -229,6 +280,7 @@ export default function ZoneMapping() {
         </div>
 
       </div>
+      )}
     </div>
   );
 }

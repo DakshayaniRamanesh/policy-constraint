@@ -1,6 +1,16 @@
-python-magic-bin
-pdfplumber
-python-docx
-pytesseract
-pillow
-spacy
+python-magic-bin 
+pdfplumber         
+python-docx        
+pytesseract        
+pillow             
+spacy              
+transformers       
+fastapi          
+uvicorn[standard]  
+numpy            
+
+# ── Phase 2: Real Hardware Integration (robot_bridge.py) ─────────────────────
+opencv-python      # Image capture, encoding and YOLO frame drawing
+ultralytics        # YOLOv8 object detection on camera frames
+pyrealsense2       # Intel RealSense D435i SDK (depth + RGB)
+# unitree-sdk2py   # Install manually from Unitree GitHub (not on PyPI)
