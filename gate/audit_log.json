@@ -1,5 +1,15 @@
 [
     {
+        "timestamp": "2026-05-10 10:11:27",
+        "operator": "admin",
+        "role": "superbase user",
+        "type": "MODE SWITCH",
+        "action": "Control mode switched to MANUAL.",
+        "action_sub": "Manual override initiated by operator.",
+        "severity": "MEDIUM",
+        "rule_id": "SYS-MODE"
+    },
+    {
         "timestamp": "2026-05-07 21:12:51",
         "operator": "admin",
         "role": "superbase user",
